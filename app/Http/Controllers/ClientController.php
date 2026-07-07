@@ -68,4 +68,23 @@ class ClientController extends Controller
 
         return back()->with('msg', 'با موفقیت انجام شد');
     }
+
+    # Search api
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = Product::query()
+            ->select('id', 'name', 'phone');
+
+        # If user insert id search by id
+        if (is_numeric($search))
+            $query->orWhere('phone', $search);
+        else
+            $query->where('name', 'LIKE', "%{$search}%");
+
+        $data = $query->limit(20)->get();
+
+        return response()->json($data);
+    }
 }

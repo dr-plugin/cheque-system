@@ -4,18 +4,18 @@ namespace App\Domain\ValuesObject;
 
 use App\Domain\ValuesObject\Trait\EnumTools;
 
-enum ClientType: string
+enum ChequeType: string
 {
     use EnumTools;
 
-    case PAYER = 'payer';
-    case RECEIVER = 'receiver';
+    case PAPER      = 'PAPER';
+    case DIGITAL    = 'DIGITAL';
 
     public function label(): string
     {
         return match ($this) {
-            self::PAYER => 'پرداخت‌ کننده',
-            self::RECEIVER => 'دریافت‌ کننده',
+            self::PAPER     => 'کاغذی',
+            self::DIGITAL   => 'دیجیتال',
         };
     }
 }

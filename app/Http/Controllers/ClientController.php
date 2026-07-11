@@ -72,19 +72,19 @@ class ClientController extends Controller
     # Search api
     public function search(Request $request)
     {
-        $search = $request->input('search');
+        $q = $request->get('q');
 
-        $query = Product::query()
-            ->select('id', 'name', 'phone');
+        $clients = Client::query()
+            ->where('name', 'like', "%{$q}%")
+            ->orWhere('phone', 'like', "%{$q}%")
+            ->limit(20)
+            ->get(['id', 'name', 'phone']);
 
-        # If user insert id search by id
-        if (is_numeric($search))
-            $query->orWhere('phone', $search);
-        else
-            $query->where('name', 'LIKE', "%{$search}%");
-
-        $data = $query->limit(20)->get();
-
-        return response()->json($data);
+        return response()->json(
+            $clients->map(fn($client) => [
+                'value' => $client->id,
+                'label' => $client->name . ' - ' . $client->phone,
+            ])
+        );
     }
 }

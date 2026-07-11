@@ -1,11 +1,12 @@
 import { createPortal } from "react-dom";
 
 function ModalBb({ head, tip = null, children, isOpen = true, onClose }) {
+
     if (!isOpen) return null;
 
     const modalRoot = document.getElementById("modalWrap");
-    if (!modalRoot) return null;
 
+    if (!modalRoot) return null;
 
     const CloseIcon = () => (
         <div className="close" onClick={onClose}>
@@ -28,7 +29,9 @@ function ModalBb({ head, tip = null, children, isOpen = true, onClose }) {
     );
 
     return createPortal(
+
         <div className="modal-wrap" onClick={onClose}>
+            
             <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <header>
                     <h2>{head}</h2>

@@ -6,7 +6,12 @@ import Button from "@/BaseComponents/Button";
 
 import { toast } from 'react-toastify';
 
-function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
+import Select from 'react-select';
+
+import ModalReadCheque from "./Components/ModalReadCheque";
+import ClientSearch from "./Components/ClientSearch";
+
+function CreateCheque({ sendUrl, msg, banks, chequeType }) {
 
     const { data, setData, processing, post, reset, errors } = useForm({
         price: '',
@@ -18,12 +23,12 @@ function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
         due_date: '',
         status: 'pending',
         owner: '',
+        is_registered: true,
+        type: chequeType[0].value
     });
-
 
     function addFormData(e) {
         const { id, type, value, checked } = e.target;
-
         setData((prevData) => {
             let val = type === 'checkbox' ? checked : value;
             return {
@@ -46,6 +51,14 @@ function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
         })
     }
 
+    const addBank = (option) => {
+        setData('bank', option.value);
+    }
+
+    const addOwner = (option) => {
+        setData('owner', option.value);
+    };
+
     return (
         <>
             <section>
@@ -56,20 +69,24 @@ function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
 
                     <form action="" onSubmit={submitForm}>
 
-                        <FormField
-                            name="owner"
-                            type="select"
-                            label="مالک چک"
-                            value={data.owner}
-                            onChange={addFormData}
+                        <ClientSearch
+                            childChanged={addOwner}
                             error={errors.owner}
-                            options={clients} 
+                        />
+
+                        <FormField
+                            name="is_registered"
+                            type="checkbox"
+                            label="چک ثبت شده یا خیر"
+                            value={data.is_registered}
+                            onChange={addFormData}
+                            error={errors.is_registered}
                             required
                         />
 
                         <FormField
                             name="price"
-                            type="number"
+                            type="tel"
                             label="مبلغ چک (ریال)"
                             value={data.price}
                             onChange={addFormData}
@@ -83,30 +100,47 @@ function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
                             value={data.exporter}
                             onChange={addFormData}
                             error={errors.exporter}
-                            required
                         />
 
                         <FormField
                             name="sayadi_number"
+                            type="tel"
                             label="شناسه صیادی (۱۶ رقمی)"
                             value={data.sayadi_number}
                             onChange={addFormData}
                             error={errors.sayadi_number}
-                        />
-
-                        <FormField
-                            name="bank"
-                            type="select"
-                            label="بانک صادرکننده"
-                            value={data.bank}
-                            onChange={addFormData}
-                            error={errors.bank}
-                            options={banks}
                             required
                         />
 
                         <FormField
+                            name="type"
+                            type="select"
+                            label="نوع چک(کاغذی یا دیجیتال)"
+                            value={data.type}
+                            onChange={addFormData}
+                            error={errors.type}
+                            options={chequeType}
+                        />
+
+                        <div className="form-group">
+                            <Select
+                                classNamePrefix="react-select"
+                                defaultValue='انتخاب بانک'
+                                isClearable={true}
+                                isRtl={true}
+                                isSearchable
+                                name="bank"
+                                options={banks}
+                                placeholder=''
+                                onChange={addBank}
+                            />
+                            <label htmlFor="exporter">بانک</label>
+                            {errors.bank && <div className="errors">{errors.bank}</div>}
+                        </div>
+
+                        <FormField
                             name="account_number"
+                            type="tel"
                             label="شماره حساب"
                             value={data.account_number}
                             onChange={addFormData}
@@ -122,20 +156,11 @@ function CreateCheque({ sendUrl, msg, clients, banks, chequeStatuses }) {
                             error={errors.due_date}
                         />
 
-                        <FormField
-                            name="status"
-                            type="select"
-                            label="وضعیت چک"
-                            value={data.status}
-                            onChange={addFormData}
-                            error={errors.status}
-                            options={chequeStatuses}
-                            required
-                        />
-
                         <Button isLoading={processing} />
 
                     </form>
+
+                    <ModalReadCheque />
 
                 </div>
 

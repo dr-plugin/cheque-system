@@ -9,11 +9,11 @@ trait PersianDate
     public function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => $this->formatData($value),
+            get: fn(string $value) => $this->formatDate($value),
         );
     }
 
-    public function formatData($date)
+    public function formatDate($date)
     {
         // $format = str_replace(
         //     ['A', 'a', 'Y', 'M', 'j', 'g', 'G', 'h', 'H', 'l', 'D', 'm', 'n', 'F'],

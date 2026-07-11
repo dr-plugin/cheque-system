@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\RoutesName;
+use App\Http\Controllers\ChequeAiController;
 use App\Http\Controllers\ChequeController;
 use App\Http\Controllers\ChequeLogsController;
 use App\Http\Controllers\ClientController;
@@ -33,7 +34,13 @@ require 'testRoute.php';
 
 Route::resource('cheque', ChequeController::class);
 Route::resource('client', ClientController::class);
-Route::resource('cheque-logs', ChequeLogsController::class);
+Route::resource('logs', ChequeLogsController::class);
+
+Route::get('/clients/search', [ClientController::class, 'search'])->name('clients.search');
+
+# Read cheque data by ai
+Route::post('/cheques/read-image', [ChequeAiController::class, 'readImage'])->name('cheques.read-image');
+
 // });
 
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { formatAmount, reFromatAmount } from "@/functions/helper.js";
 
 function FormField({
     name,
@@ -9,49 +10,76 @@ function FormField({
     error,
     required = false,
     placeholder = "",
-    options = [], // Array of { value, label } for select inputs
+    options = [],
+    readOnly = false,
 }) {
 
     const isSelect = type === "select";
+    const isTextarea = type === "textarea";
+    const isCheckbox = type === "checkbox";
 
-    var classes = 'form-group';
-    classes += isSelect ? ' select' : '';
+    const classes = `form-group ${type}`;
+
+    // Display value for price fields
+    const displayValue = name === "price" ? formatAmount(value) : value;
+
+    function onChangeByFilterData(e) {
+        const { id, type, value, checked } = e.target;
+
+        var customEvent = e;
+        if (name == 'price')
+            customEvent.target.value = reFromatAmount(value);
+
+        onChange(customEvent);
+    }
+
+    const commonProps = {
+        name,
+        id: name,
+        required,
+        placeholder,
+        readOnly,
+    };
 
     return (
-        <div className={classes} >
-            {
-                isSelect ? (
-                    <select
-                        name={name}
-                        id={name}
-                        value={value}
-                        onChange={onChange}
-                        required={required}
-                    >
-                        {placeholder && <option value="" disabled>{placeholder}</option>}
-                        {
-                            options.map((opt) => (
-                                <option key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                </option>
-                            ))
-                        }
-                    </select >
-                ) : (
-                    <input
-                        type={type}
-                        name={name}
-                        id={name}
-                        value={value}
-                        onChange={onChange}
-                        required={required}
-                        placeholder={placeholder}
-                    />
-                )
-            }
+        <div className={classes}>
+            {isSelect ? (
+                <select
+                    {...commonProps}
+                    value={value ?? ""}
+                    onChange={onChange}
+                >
+                    {placeholder && (
+                        <option value="" disabled>
+                            {placeholder}
+                        </option>
+                    )}
+
+                    {options.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </option>
+                    ))}
+                </select>
+            ) : isTextarea ? (
+                <textarea
+                    {...commonProps}
+                    value={displayValue ?? ""}
+                    onChange={onChangeByFilterData}
+                />
+            ) : (
+                <input
+                    {...commonProps}
+                    type={type}
+                    value={displayValue}
+                    checked={isCheckbox ? !!value : undefined}
+                    onChange={onChangeByFilterData}
+                />
+            )}
+
             <label htmlFor={name}>{label}</label>
             {error && <div className="errors">{error}</div>}
-        </div >
+        </div>
     );
 }
 

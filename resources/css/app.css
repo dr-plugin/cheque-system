@@ -1,6 +1,7 @@
 @import url(./app.desk.css);
 @import url(./app.mob.css);
 @import url(./form.css);
+@import url(./upload-ai.css);
 
 @font-face {
     font-family: yekanbakh;
@@ -100,7 +101,7 @@ body {
 }
 
 .sidebar-links {
-    display:flex;
+    display: flex;
     flex-direction: column;
     flex: 1;
     overflow-y: auto;
@@ -564,7 +565,19 @@ button span {
     transition: all .2s ease-in;
 }
 
-button:hover:not(.mode-switch.active) {
+button.second {
+    background: #e2e8f0;
+    color: #0f172a;
+    opacity: .7;
+}
+
+button.second:hover {
+    color: white;
+    opacity: 1;
+}
+
+
+button:hover:not(.second, .mode-switch.active) {
     background-color: #0056b3;
 }
 

@@ -1,6 +1,11 @@
 import DashboardLayout from "@/Layouts/Dashboard/Layout"
 import Pagination from "@/BaseComponents/Pagination"
 
+import { formatAmount } from '@/functions/helper.js';
+
+import ModalMoveCheque from "./Components/ModalMoveCheque";
+
+
 function Index({ cheques, h1 }) {
 
     if (cheques.data.length <= 0)
@@ -14,25 +19,27 @@ function Index({ cheques, h1 }) {
                         <thead>
                             <tr>
                                 <th>شماره صیادی</th>
+                                <th>نزد</th>
                                 <th>صادر کننده</th>
-                                <th>شماره حساب</th>
-                                <th>تصویر چک</th>
-                                <th>وضعیت چک</th>
                                 <th>بانک</th>
                                 <th>تاریخ چک</th>
-                                <th>مبلغ</th>
-                                <th>نزد</th>
+                                <th>مبلغ (ریال)</th>
+                                <th>وضعیت چک</th>
+                                <th>انتقال</th>
                             </tr>
                         </thead>
                         <tbody>
                             {cheques.data.map((item) => (
+
                                 <tr key={item.id}>
-                                    <td>{item.price}</td>
                                     <td>{item.sayadi_number}</td>
-                                    <td>{item.exporter}</td>
-                                    <td>{item.status}</td>
-                                    <td>{item.bank}</td>
                                     <td>{item.owner.name}</td>
+                                    <td>{item.exporter}</td>
+                                    <td>{item.bank_label}</td>
+                                    <td>{item.due_date}</td>
+                                    <td>{formatAmount(item.price)}</td>
+                                    <td>{item.status}</td>
+                                    <td><ModalMoveCheque chequeId={item.id} payerId={item.owner.id} payerName={item.owner.name} /></td>
                                 </tr>
                             ))}
                         </tbody>

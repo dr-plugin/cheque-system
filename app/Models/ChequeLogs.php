@@ -11,8 +11,10 @@ class ChequeLogs extends Model
     use HasFactory, PersianDate;
 
     protected $fillable = [
+        'cheque_id',
         'payer_id',
         'receiver_id',
+        'comment'
     ];
 
     public function cheque()

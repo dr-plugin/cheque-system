@@ -17,7 +17,6 @@
     background: var(--f-group-bg);
     border-radius: 8px;
     border: 1px solid var(--f-group-border);
-    height: 45px;
 }
 
 .light .form-group {
@@ -25,6 +24,13 @@
     --f-group-border: #eeeeee
 }
 
+.form-group .css-13cymwt-control {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.form-group:has(.react-select__value-container--has-value) label,
+.form-group:has(.react-select__control--is-focused) label,
 .form-group input:focus~label,
 .form-group input:not(:placeholder-shown)~label {
     transform: scale(.75);
@@ -83,7 +89,7 @@
 .form-group input[type="tel"],
 .form-group input[type="email"],
 .form-group input[type="number"] {
-    padding: .5rem 0;
+    padding-top: 5px;
     background: 0 0;
     border: none;
     -webkit-appearance: none;
@@ -94,11 +100,6 @@
     font-family: inherit;
     width: 100%;
     font-size: inherit;
-}
-
-.form-group input[type="checkbox"] {
-    margin-right: 10px;
-    accent-color: #667eea;
 }
 
 .input>div {
@@ -294,4 +295,35 @@ select option:checked {
 
 .Toastify__toast {
     font-family: inherit !important;
+}
+
+/**
+Checkbox 
+**/
+.form-group.checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #999;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    top:5px;
+    transition: all 0.2s ease;
+}
+
+.form-group.checkbox input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-group.checkbox input[type="checkbox"]:checked::after {
+    content: "✓";
+    color: #fff;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

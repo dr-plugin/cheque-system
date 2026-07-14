@@ -17,7 +17,8 @@ return new class extends Migration
 
             $table->foreignId('owner')->constrained('clients'); //or $table->foreign('owner')->references('id')->on('clients');
 
-            $table->string('price');
+            $table->unsignedBigInteger('price')->nullable();
+
             $table->string('sayadi_number', 100)->unique();
             $table->boolean('is_registered')->default(true);
 
@@ -27,7 +28,7 @@ return new class extends Migration
             $table->string('img_url')->nullable();
 
             $table->string('status', 100);
-            $table->string('type', 100); //paper, digital
+            $table->string('type', 30); //paper, digital
 
             $table->date('due_date')->nullable();
 

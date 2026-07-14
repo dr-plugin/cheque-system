@@ -24,8 +24,7 @@ function Index({ cheques, h1 }) {
                                 <th>بانک</th>
                                 <th>تاریخ چک</th>
                                 <th>مبلغ (ریال)</th>
-                                <th>وضعیت چک</th>
-                                <th>انتقال</th>
+                                <th>عملیات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,10 +35,18 @@ function Index({ cheques, h1 }) {
                                     <td>{item.owner.name}</td>
                                     <td>{item.exporter}</td>
                                     <td>{item.bank_label}</td>
-                                    <td>{item.due_date}</td>
+                                    <td>{item.date_fa}</td>
                                     <td>{formatAmount(item.price)}</td>
-                                    <td>{item.status}</td>
-                                    <td><ModalMoveCheque chequeId={item.id} payerId={item.owner.id} payerName={item.owner.name} /></td>
+                                    <td>
+                                        <ModalMoveCheque
+                                            chequeId={item.id}
+                                            price={item.price}
+                                            due_date={item.due_date}
+                                            date_fa={item.date_fa}
+                                            payerId={item.owner.id}
+                                            payerName={item.owner.name}
+                                        />
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>

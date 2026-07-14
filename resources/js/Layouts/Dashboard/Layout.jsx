@@ -15,8 +15,6 @@ const DashboardLayout = ({ children, h1 }) => {
     function closeSidebar(e) {
         if (e.target.closest('a'))
             setSidebarOpen(false)
-
-        console.log('Ehllo');
     }
 
     return (

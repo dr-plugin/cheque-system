@@ -29,6 +29,19 @@
     border-color: transparent;
 }
 
+.form-group .css-13cymwt-control:hover {
+    border-color: transparent;
+}
+
+.form-group .react-select__control--is-focused,
+.form-group .react-select__menu {
+    color: black !important;
+}
+
+.form-group .react-select__single-value {
+    color: inherit;
+}
+
 .form-group:has(.react-select__value-container--has-value) label,
 .form-group:has(.react-select__control--is-focused) label,
 .form-group input:focus~label,
@@ -69,12 +82,14 @@
 
 .form-group label {
     position: absolute;
-    top: .6rem;
+    top: 50%;
     right: 10px;
     transition: .3s;
     transform-origin: right;
     z-index: 0;
-    padding: 0 5px
+    padding: 0 5px;
+    transform: translateY(-50%);
+    pointer-events: none;
 }
 
 .form-group.checkbox label {
@@ -300,30 +315,140 @@ select option:checked {
 /**
 Checkbox 
 **/
-.form-group.checkbox input[type="checkbox"] {
+
+.form-group.checkbox {
+    --box-var: 40;
+}
+
+.form-group.checkbox input {
+    background-color: #c9cbcd;
     appearance: none;
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #999;
-    border-radius: 4px;
+    border-radius: 72px;
+    border-style: none;
+    flex-shrink: 0;
+    height: calc(var(--box-var) * .65px);
+    margin: 0;
+    width: calc(var(--box-var) * 1.1px);
+}
+
+.form-group.checkbox input::before {
+    bottom: -6px;
+    content: "";
+    left: -6px;
+    position: absolute;
+    right: -6px;
+    top: -6px;
+}
+
+.form-group.checkbox input,
+.form-group.checkbox input::after {
+    transition: all 100ms ease-out;
+}
+
+.form-group.checkbox input::after {
+    background-color: #fff;
+    border-radius: 50%;
+    content: "";
+    position: absolute;
+    height: calc(var(--box-var) * .5px);
+    width: calc(var(--box-var) * .5px);
+    left: 3px;
+    top: 3px;
+}
+
+.form-group.checkbox input[type=checkbox] {
     cursor: pointer;
     position: relative;
-    top:5px;
-    transition: all 0.2s ease;
+    top: 6px;
 }
 
-.form-group.checkbox input[type="checkbox"]:checked {
-    background-color: #007bff;
-    border-color: #007bff;
+.form-group.checkbox input:hover {
+    background-color: #c9cbcd;
+    transition-duration: 0s;
 }
 
-.form-group.checkbox input[type="checkbox"]:checked::after {
-    content: "✓";
-    color: #fff;
-    font-size: 14px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.form-group.checkbox input:checked {
+    background-color: #6e79d6;
+}
+
+.form-group.checkbox input:checked::after {
+    background-color: #fff;
+    left: calc(var(--box-var) * .48px);
+}
+
+.form-group.checkbox :focus:not(.focus-visible) {
+    outline: 0;
+}
+
+.form-group.checkbox input:checked:hover {
+    background-color: #535db3;
+}
+
+/*end checkbox*/
+
+a.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 12px;
+    background: linear-gradient(135deg, #ebebeb 0%, #aa9bb7 100%);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+a.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+a.button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+}
+
+.form-group.without-bg {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    --box-var: 30;
+}
+
+.form-group.without-bg label {
+    position: relative;
+    background-color: transparent !important;
+    border-color: transparent !important;
+    top: 5px !important;
+}
+
+.form-group.without-bg label::after,
+.form-group.without-bg label::before {
+    display: none
+}
+
+.trans-form {
+    height: auto;
+    margin: 8px 0;
+    transition: height .05s;
+    interpolate-size: allow-keywords;
+}
+
+@starting-style {
+    .trans-form {
+        height: 0;
+    }
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.pb-5 {
+    padding-bottom:5px;
 }

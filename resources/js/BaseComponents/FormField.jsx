@@ -12,13 +12,14 @@ function FormField({
     placeholder = "",
     options = [],
     readOnly = false,
+    customClass = ""
 }) {
 
     const isSelect = type === "select";
     const isTextarea = type === "textarea";
     const isCheckbox = type === "checkbox";
 
-    const classes = `form-group ${type}`;
+    const classes = `form-group ${type} ${customClass}`;
 
     // Display value for price fields
     const displayValue = name === "price" ? formatAmount(value) : value;

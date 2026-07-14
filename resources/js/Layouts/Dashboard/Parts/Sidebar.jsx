@@ -11,7 +11,25 @@ const Sidebar = ({ isOpen, childClicked }) => {
 
     const dashboard = '/';
 
-    const links = [];
+    const links = [
+        {
+            href: '/client',
+            label:'اشخاص'
+        },
+        {
+            href: '/client/create',
+            label:'ایجاد شخص'
+        },
+        {
+            href: '/cheque',
+            label:'چکها'
+        },
+        {
+            href: '/cheque/create',
+            label:'افزودن چک'
+        },
+       
+    ];
 
     return (
         <aside className={`sidebar ${isOpen ? 'open' : ''}`} >
@@ -20,6 +38,7 @@ const Sidebar = ({ isOpen, childClicked }) => {
             </div>
 
             <div className="sidebar-links">
+
                 <ul className="sidebar-list" onClick={childClicked}>
                     {links.map((link) => (
                         <li className="sidebar-list-item" key={link.href}>

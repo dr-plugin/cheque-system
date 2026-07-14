@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cheque;
 use App\Models\ChequeLogs;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -28,8 +29,11 @@ class ChequeLogsController extends Controller
             'payer_id'     => ['required', 'exists:clients,id'],
             'receiver_id'  => ['required', 'exists:clients,id', 'different:payer_id'],
             'comment'      => ['nullable', 'string'],
-        ]);
 
+            'trans_price'           => ['nullable', 'integer'],
+            'trans_interest_rate'   => ['nullable', 'integer'],
+            'trans_comment'         => ['nullable', 'string']
+        ]);
 
         DB::transaction(function () use ($validated) {
 
@@ -47,6 +51,14 @@ class ChequeLogsController extends Controller
                 'payer_id'    => $validated['payer_id'],
                 'receiver_id' => $validated['receiver_id'],
                 'comment'     => $validated['comment'] ?? '',
+            ]);
+
+            Transaction::create([
+                'price'           => $validated['trans_price'],
+                'cheque_id'       => $cheque->id,
+                'payer_id'        => $validated['payer_id'],
+                'receiver_id'     => $validated['receiver_id'],
+                'comment'         => $validated['comment'] ?? '',
             ]);
 
             $cheque->owner = $validated['receiver_id'];

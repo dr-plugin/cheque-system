@@ -24,7 +24,9 @@ class ChequeController extends Controller
         $clientId = $request->query('client');
 
         # Get cheque With owner
-        $query = Cheque::query()->with('owner');
+        $query = Cheque::query()
+            ->orderBy('due_date', 'DESC')
+            ->with('owner');
 
         $h1 = "لیست تمام چک‌ها";
 
@@ -32,8 +34,7 @@ class ChequeController extends Controller
             $query->where('owner', $clientId);
 
             $client = Client::find($clientId);
-            if ($client)
-                $h1 = "چک‌های موجود نزد " . $client->name;
+            if ($client) $h1 = "چک‌های موجود نزد " . $client->name;
         }
 
         $cheques = $query->paginate(10);
@@ -68,9 +69,10 @@ class ChequeController extends Controller
 
             #Checkbox
             'is_registered'     => ['sometimes', 'boolean'],
-            
+
             'bank'              => ['nullable', new Enum(Bank::class)],
-            'price'             => ['nullable', 'string', 'max:255'],
+            'price'             => ['nullable', 'integer'],
+
             'exporter'          => ['nullable', 'string', 'max:200'],
             'account_number'    => ['nullable', 'string', 'max:255'],
             'img_url'           => ['nullable', 'string', 'max:255'],

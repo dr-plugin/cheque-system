@@ -4,21 +4,42 @@ use App\Enums\AdminRoute;
 use App\Facades\MyLogFacades;
 use App\Services\Sms\SmsManager;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
+use Morilog\Jalali\Jalalian;
 
+// Route::get('/clear-cache', function () {
 
-Route::get('/clear-cache', function () {
-
-    //dd(public_path());
-    $exitCode = Artisan::call('optimize:clear');
-    // return what you want
-});
+//     //dd(public_path());
+//     $exitCode = //Artisan::call('optimize:clear');
+//     // return what you want
+// });
 
 Route::get('/test', function (Request $request) {
 
-    Cache::put('someKeyFor12', 458, $seconds = 10);
+    //$d = Jalalian::fromCarbon(Carbon::parse('1405/10/20'))->format('Y/m/d');
+
+
+    //echo Carbon::parse('2026-09-11');
+
+    // $carbonDate =  Jalalian::fromFormat('Y/m/d', '1405-10-18')->toCarbon();
+
+
+    // echo '<br>';
+
+    // echo $carbonDate;
+
+    // echo '<br>';
+
+    // echo Jalalian::fromCarbon($carbonDate)->format('Y/m/d');
+
+
+    //dd($d);
+
+
+    //Cache::put('someKeyFor12', 458, $seconds = 10);
 
     // cache('')
 

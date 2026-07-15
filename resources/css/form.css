@@ -444,11 +444,3 @@ a.button:active {
         height: 0;
     }
 }
-
-.justify-between {
-    justify-content: space-between;
-}
-
-.pb-5 {
-    padding-bottom:5px;
-}

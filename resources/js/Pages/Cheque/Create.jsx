@@ -11,20 +11,20 @@ import Select from 'react-select';
 import ModalReadCheque from "./Components/ModalReadCheque";
 import ClientSearch from "./Components/ClientSearch";
 
-function CreateCheque({ sendUrl, msg, banks, chequeType }) {
+function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
 
     const { data, setData, processing, post, reset, errors } = useForm({
-        price: '',
-        sayadi_number: '',
-        exporter: '',
-        account_number: '',
-        bank: '',
+        price: cheque?.price ?? '',
+        sayadi_number: cheque?.sayadi_number ?? '',
+        exporter: cheque?.exporter ?? '',
+        account_number: cheque?.account_number ?? '',
+        bank: cheque?.bank ?? '',
         img_url: null,
-        due_date: '',
+        due_date: cheque?.date_fa ?? '',
         status: 'pending',
-        owner: '',
-        is_registered: true,
-        type: chequeType[0].value
+        owner: cheque?.owner.id ?? '',
+        is_registered: cheque?.is_registered ?? true,
+        type: cheque?.type ?? chequeType[0].value
     });
 
     function addFormData(e) {
@@ -59,6 +59,12 @@ function CreateCheque({ sendUrl, msg, banks, chequeType }) {
         setData('owner', option.value);
     };
 
+    function getBankLabel() {
+
+        if (data.bank)
+            return banks.filter((item) => item.value == data.bank)[0];
+    }
+
     return (
         <>
             <section>
@@ -72,6 +78,7 @@ function CreateCheque({ sendUrl, msg, banks, chequeType }) {
                         <ClientSearch
                             childChanged={addOwner}
                             error={errors.owner}
+                            value={{ value: cheque?.owner.id, label: cheque?.owner.name }}
                         />
 
                         <FormField
@@ -130,6 +137,8 @@ function CreateCheque({ sendUrl, msg, banks, chequeType }) {
                                 isRtl={true}
                                 isSearchable
                                 name="bank"
+                                value={data.bank}
+                                value={{ value: data.bank, label: getBankLabel()?.label }}
                                 options={banks}
                                 placeholder=''
                                 onChange={addBank}

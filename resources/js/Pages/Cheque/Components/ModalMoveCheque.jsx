@@ -3,17 +3,15 @@ import { useRef, useState } from "react";
 import Button from "@/BaseComponents/Button";
 import FormField from "@/BaseComponents/FormField";
 import ModalBb from "@/BaseComponents/ModalBb";
-
+import { MdOutlineMoveUp } from "react-icons/md";
 import { useForm, usePage } from '@inertiajs/react';
 import ClientSearch from "./ClientSearch";
-
 import { toast } from 'react-toastify';
-
 import { formatAmount } from '@/functions/helper.js';
 
 function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerName }) {
 
-    const {msg} = usePage();
+    const { msg } = usePage();
 
     const { data, setData, processing, post, reset, errors } = useForm({
         cheque_id: chequeId,
@@ -93,9 +91,11 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
 
     return (
         <>
-            <a type="button" className="button second" onClick={() => setIsOpen(true)}>
-                انتقال چک
-            </a>
+            <MdOutlineMoveUp
+                size={25}
+                onClick={() => setIsOpen(true)}
+            />
+
 
             <ModalBb
                 isOpen={isOpen}

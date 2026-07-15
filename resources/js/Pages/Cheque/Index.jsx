@@ -2,8 +2,10 @@ import DashboardLayout from "@/Layouts/Dashboard/Layout"
 import Pagination from "@/BaseComponents/Pagination"
 
 import { formatAmount } from '@/functions/helper.js';
-
+import { FiEdit } from "react-icons/fi";
 import ModalMoveCheque from "./Components/ModalMoveCheque";
+
+import { Link } from "@inertiajs/react";
 
 
 function Index({ cheques, h1 }) {
@@ -37,7 +39,8 @@ function Index({ cheques, h1 }) {
                                     <td>{item.bank_label}</td>
                                     <td>{item.date_fa}</td>
                                     <td>{formatAmount(item.price)}</td>
-                                    <td>
+                                    <td className="flex gap-2 justify-center">
+
                                         <ModalMoveCheque
                                             chequeId={item.id}
                                             price={item.price}
@@ -46,6 +49,10 @@ function Index({ cheques, h1 }) {
                                             payerId={item.owner.id}
                                             payerName={item.owner.name}
                                         />
+
+                                        <Link href={`/cheque/${item.id}/edit`}>
+                                            <FiEdit size={24} />
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}

@@ -1,9 +1,9 @@
 import AsyncSelect from 'react-select/async';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function ClientSearch({ childChanged, error }) {
+function ClientSearch({ childChanged, error, value }) {
 
-    const [client, setClient] = useState('');
+    const [client, setClient] = useState(value);
 
     const getClients = async (inputValue) => {
 

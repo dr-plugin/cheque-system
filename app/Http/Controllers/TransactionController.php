@@ -7,6 +7,24 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    public function getViewPath(): string
+    {
+        return 'Transaction';
+    }
+
+    public function index()
+    {
+        $transactions = Transaction::with(['payer', 'receiver', 'cheque'])
+            ->paginate();
+
+        return $this->render(
+            'Index',
+            [
+                'transactions' => $transactions
+            ]
+        );
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

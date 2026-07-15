@@ -21,4 +21,9 @@ class Client extends Model
     {
         return $this->hasMany(Cheque::class, 'owner');
     }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'payer_id');
+    }
 }

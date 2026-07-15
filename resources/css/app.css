@@ -2,6 +2,8 @@
 @import url(./app.mob.css);
 @import url(./form.css);
 @import url(./upload-ai.css);
+@import url(./upload-ai.css);
+@import url(./ready.css); /*Some tailwind class*/
 
 @font-face {
     font-family: yekanbakh;
@@ -394,9 +396,6 @@ section.table-container {
     background-color: var(--action-color-hover)
 }
 
-.flex {
-    display: flex;
-}
 
 .inquiry-wrap {
     justify-content: center;
@@ -519,6 +518,7 @@ section.table-container {
 /*end table css*/
 svg {
     vertical-align: middle;
+    cursor: pointer;
     stroke: var(--app-content-main-color)
 }
 

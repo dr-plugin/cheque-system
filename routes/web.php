@@ -6,6 +6,7 @@ use App\Http\Controllers\ChequeController;
 use App\Http\Controllers\ChequeLogsController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,7 @@ require 'testRoute.php';
 Route::resource('cheque', ChequeController::class);
 Route::resource('client', ClientController::class);
 Route::resource('logs', ChequeLogsController::class);
-Route::resource('transaction', Transaction::class);
+Route::resource('transaction', TransactionController::class);
 
 Route::get('/clients/search', [ClientController::class, 'search'])->name('clients.search');
 

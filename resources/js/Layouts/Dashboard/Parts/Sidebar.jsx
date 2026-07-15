@@ -28,7 +28,10 @@ const Sidebar = ({ isOpen, childClicked }) => {
             href: '/cheque/create',
             label:'افزودن چک'
         },
-       
+        {
+            href: '/transaction/create',
+            label:'افزودن مستقیم تراکنش'
+        }      
     ];
 
     return (

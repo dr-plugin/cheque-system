@@ -44,6 +44,7 @@ class Cheque extends Model
         'date_fa', //presian date
     ];
 
+    # Relations
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Client::class, 'owner', 'id');
@@ -53,6 +54,12 @@ class Cheque extends Model
     {
         return $this->hasMany(ChequeLogs::class, 'cheque_id');
     }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'cheque_id');
+    }
+    # End Relations
 
     protected function dueDate(): Attribute
     {

@@ -84,4 +84,20 @@ class ChequeController extends Controller
 
         return back()->with('msg', 'چک با موفقیت ذخیره شده');
     }
+
+    public function edit(Cheque $cheque)
+    {
+
+        $cheque->load('owner');
+
+        return $this->render(
+            'Create',
+            [
+                'sendUrl'       => RoutesName::CreateCheque->value . '/update',
+                'banks'         => Bank::options(),
+                'chequeType'    => ChequeType::options(),
+                'cheque'        => $cheque
+            ]
+        );
+    }
 }

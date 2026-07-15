@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Domain\ValuesObject\Bank;
 use App\Domain\ValuesObject\ChequeType;
 use App\Enums\RoutesName;
+use App\Http\Requests\ChequeRequest;
 use App\Models\Cheque;
 use App\Models\Client;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Enum;
 
 class ChequeController extends Controller
 {
@@ -21,6 +22,7 @@ class ChequeController extends Controller
     public function index(Request $request)
     {
 
+        $clientTrans = [];
         $clientId = $request->query('client');
 
         # Get cheque With owner
@@ -30,11 +32,18 @@ class ChequeController extends Controller
 
         $h1 = "لیست تمام چک‌ها";
 
+
         if ($clientId) {
             $query->where('owner', $clientId);
 
             $client = Client::find($clientId);
             if ($client) $h1 = "چک‌های موجود نزد " . $client->name;
+
+            $clientTrans =
+                Transaction::with('payer', 'receiver')
+                ->where('payer_id', $client->id)
+                ->orWhere('receiver_id', $client->id)
+                ->get();
         }
 
         $cheques = $query->paginate(10);
@@ -43,7 +52,8 @@ class ChequeController extends Controller
             'Index',
             [
                 'cheques' => $cheques,
-                'h1'      => $h1
+                'h1'      => $h1,
+                'clientTrans'   => $clientTrans
             ]
         );
     }
@@ -54,31 +64,16 @@ class ChequeController extends Controller
             'Create',
             [
                 'sendUrl'       => RoutesName::CreateCheque->value,
+                'msg'           => session('msg', null),
                 'banks'         => Bank::options(),
                 'chequeType'    => ChequeType::options(),
             ]
         );
     }
 
-    public function store(Request $request)
+    public function store(ChequeRequest $request)
     {
-        $validated = $request->validate([
-            'owner'             => ['required', 'exists:clients,id'],
-            'sayadi_number'     => ['required', 'string', 'max:100', 'unique:cheques,sayadi_number'],
-            'type'              => ['required', new Enum(ChequeType::class)],
-
-            #Checkbox
-            'is_registered'     => ['sometimes', 'boolean'],
-
-            'bank'              => ['nullable', new Enum(Bank::class)],
-            'price'             => ['nullable', 'integer'],
-
-            'exporter'          => ['nullable', 'string', 'max:200'],
-            'account_number'    => ['nullable', 'string', 'max:255'],
-            'img_url'           => ['nullable', 'string', 'max:255'],
-            'due_date'          => ['nullable', 'date'],
-            'status'            => ['string']
-        ]);
+        $validated = $request->validated();
 
         $cheque = Cheque::create($validated);
 
@@ -93,11 +88,21 @@ class ChequeController extends Controller
         return $this->render(
             'Create',
             [
-                'sendUrl'       => RoutesName::CreateCheque->value . '/update',
+                'sendUrl'       => RoutesName::CreateCheque->value . '/' . $cheque->id,
+                'msg'           => session('msg', null),
                 'banks'         => Bank::options(),
                 'chequeType'    => ChequeType::options(),
                 'cheque'        => $cheque
             ]
         );
+    }
+
+    public function update(Cheque $cheque, ChequeRequest $request)
+    {
+        $validated = $request->validated();
+
+        $cheque->update($validated);
+
+        return back()->with('msg', 'چک با موفقیت ویرایش شد');
     }
 }

@@ -12,7 +12,8 @@ function FormField({
     placeholder = "",
     options = [],
     readOnly = false,
-    customClass = ""
+    customClass = "",
+    isAmount = false
 }) {
 
     const isSelect = type === "select";
@@ -28,7 +29,7 @@ function FormField({
         const { id, type, value, checked } = e.target;
 
         var customEvent = e;
-        if (name == 'price')
+        if (name == 'price' || isAmount)
             customEvent.target.value = reFromatAmount(value);
 
         onChange(customEvent);

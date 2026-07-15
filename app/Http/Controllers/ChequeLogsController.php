@@ -56,9 +56,11 @@ class ChequeLogsController extends Controller
             Transaction::create([
                 'price'           => $validated['trans_price'],
                 'cheque_id'       => $cheque->id,
-                'payer_id'        => $validated['payer_id'],
-                'receiver_id'     => $validated['receiver_id'],
-                'comment'         => $validated['comment'] ?? '',
+
+                'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
+                'receiver_id'     => $validated['payer_id'],
+
+                'comment'         => $validated['trans_comment'] ?? '',
             ]);
 
             $cheque->owner = $validated['receiver_id'];

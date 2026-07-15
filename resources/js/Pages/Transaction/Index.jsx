@@ -17,7 +17,7 @@ function Index({ transactions }) {
                             <th>آیدی</th>
                             <th>پرداخت کننده</th>
                             <th>دریافت کننده</th>
-                            <th>قیمت</th>
+                            <th>مبلغ(ریال)</th>
                             <th>توضیحات</th>
                             <th>تاریخ ایجاد</th>
                         </tr>

@@ -444,3 +444,9 @@ a.button:active {
         height: 0;
     }
 }
+
+.hide {
+    height: 0;
+    color: transparent;
+    pointer-events: none;
+}

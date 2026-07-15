@@ -105,26 +105,28 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
 
                 <form onSubmit={createNewLog}>
 
-                    <FormField
-                        name="payer_name_no_need_in_form"
-                        error={errors.payer_id}
-                        label="انتقال چک از:"
-                        value={payerName}
-                        readOnly={true}
-                    />
+                    <div className={showTrans ? 'hide' : ''}>
+                        <FormField
+                            name="payer_name_no_need_in_form"
+                            error={errors.payer_id}
+                            label="انتقال چک از:"
+                            value={payerName}
+                            readOnly={true}
+                        />
 
-                    <ClientSearch
-                        childChanged={addReciver}
-                        error={errors.receiver_id}
-                    />
+                        <ClientSearch
+                            childChanged={addReciver}
+                            error={errors.receiver_id}
+                        />
 
-                    <FormField
-                        name="comment"
-                        onChange={addFormData}
-                        error={errors.comment}
-                        label="توضیحات"
-                        value={data.comment}
-                    />
+                        <FormField
+                            name="comment"
+                            onChange={addFormData}
+                            error={errors.comment}
+                            label="توضیحات"
+                            value={data.comment}
+                        />
+                    </div>
 
                     <FormField
                         name=""
@@ -165,6 +167,7 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
                                     error={errors.trans_price}
                                     label="مبلغ واریزی"
                                     value={formatAmount(data.trans_price)}
+                                    isAmount={true}
                                 />
 
                                 <FormField

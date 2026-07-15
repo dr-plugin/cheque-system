@@ -13,7 +13,7 @@ import ClientSearch from "./Components/ClientSearch";
 
 function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
 
-    const { data, setData, processing, post, reset, errors } = useForm({
+    const { data, setData, processing, post, put, reset, errors } = useForm({
         price: cheque?.price ?? '',
         sayadi_number: cheque?.sayadi_number ?? '',
         exporter: cheque?.exporter ?? '',
@@ -26,6 +26,8 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
         is_registered: cheque?.is_registered ?? true,
         type: cheque?.type ?? chequeType[0].value
     });
+
+    const selectedBank = banks.find(i => i.value == data.bank) || null;
 
     function addFormData(e) {
         const { id, type, value, checked } = e.target;
@@ -42,13 +44,25 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
 
         e.preventDefault();
 
-        post(sendUrl, {
-            preserveScroll: true,
-            onSuccess: () => {
-                reset();
-                toast.success("عملیات با موفقیت انجام شد!");
-            }
-        })
+        //Create new
+        if (cheque == undefined) {
+            post(sendUrl, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    reset();
+                    toast.success(msg);
+                }
+            })
+
+            //Update
+        } else {
+            put(sendUrl, {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success(msg);
+                }
+            })
+        }
     }
 
     const addBank = (option) => {
@@ -59,19 +73,11 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
         setData('owner', option.value);
     };
 
-    function getBankLabel() {
-
-        if (data.bank)
-            return banks.filter((item) => item.value == data.bank)[0];
-    }
-
     return (
         <>
             <section>
 
                 <div className="form-wrap">
-
-                    {msg && (<div className='errors top'>{msg}</div>)}
 
                     <form action="" onSubmit={submitForm}>
 
@@ -88,7 +94,6 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
                             value={data.is_registered}
                             onChange={addFormData}
                             error={errors.is_registered}
-                            required
                         />
 
                         <FormField
@@ -137,8 +142,7 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
                                 isRtl={true}
                                 isSearchable
                                 name="bank"
-                                value={data.bank}
-                                value={{ value: data.bank, label: getBankLabel()?.label }}
+                                value={selectedBank}
                                 options={banks}
                                 placeholder=''
                                 onChange={addBank}

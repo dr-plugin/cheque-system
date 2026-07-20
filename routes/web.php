@@ -29,28 +29,28 @@ require 'testRoute.php';
 
 // Route::resource('posts', PostController::class);
 
+
+
 /**
  * User Route
  */
-// Route::group(['prefix' => Route::Panel->value, 'middleware' => ['auth', 'restric.id']], function () {
+Route::group(['middleware' => ['auth', 'restric.id']], function () {
 
-Route::resource('cheque', ChequeController::class);
-Route::resource('client', ClientController::class);
-Route::resource('logs', ChequeLogsController::class);
-Route::resource('transaction', TransactionController::class);
+    Route::resource('cheque', ChequeController::class);
+    Route::resource('client', ClientController::class);
+    Route::resource('logs', ChequeLogsController::class);
+    Route::resource('transaction', TransactionController::class);
 
-Route::get('/clients/search', [ClientController::class, 'search'])->name('clients.search');
+    Route::get('/clients/search', [ClientController::class, 'search'])->name('clients.search');
 
-# Read cheque data by ai
-Route::post('/cheques/read-image', [ChequeAiController::class, 'readImage'])->name('cheques.read-image');
-
-// });
+    # Read cheque data by ai
+    Route::post('/cheques/read-image', [ChequeAiController::class, 'readImage'])->name('cheques.read-image');
+});
 
 
 Route::group(
     ['middleware' => ['guest']],
     function () {
-
         // User login
         Route::get(RoutesName::Login->value, [LoginController::class, 'loginForm'])->name('login');
         Route::post(RoutesName::Login->value, [LoginController::class, 'login']);

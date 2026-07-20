@@ -23,12 +23,7 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            TransactionColumn::UserId->value            => User::factory(),
-            TransactionColumn::Amount->value            => fake()->numberBetween(1000, 95000),
-            TransactionColumn::Desc->value              => fake()->text(100),
-            TransactionColumn::Type->value              => fake()->randomElement(['wallet_charge', 'inquiry_fee', 'plan_purchase']),
-            TransactionColumn::TransactionId->value     => fake()->lexify('????????'),
-            TransactionColumn::Status->value            => 'pending'
+            
         ];
     }
 }

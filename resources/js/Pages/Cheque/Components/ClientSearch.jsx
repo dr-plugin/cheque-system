@@ -1,7 +1,7 @@
 import AsyncSelect from 'react-select/async';
 import { useEffect, useState } from 'react';
 
-function ClientSearch({ childChanged, error, value }) {
+function ClientSearch({ childChanged, error, value, label = "دریافت کننده" }) {
 
     const [client, setClient] = useState(value);
 
@@ -34,7 +34,7 @@ function ClientSearch({ childChanged, error, value }) {
                     noOptionsMessage={() => "موردی یافت نشد"}
                     isClearable
                 />
-                <label htmlFor="exporter"> دریافت کننده</label>
+                <label htmlFor="exporter">{label}</label>
                 {error && <div className="errors">{error}</div>}
             </div>
         </>

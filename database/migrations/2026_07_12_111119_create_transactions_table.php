@@ -14,10 +14,11 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('price');
+            $table->string('type', 100)->nullable(); //see transactionType enum
             $table->string('transaction_id', 100)->nullable();
-            $table->foreignId('cheque_id')->nullable()->constrained('cheques')->onDelete('cascade');
-            $table->foreignId('payer_id')->constrained('client');
-            $table->foreignId('receiver_id')->constrained('client');
+            $table->foreignId('cheque_id')->nullable()->constrained('cheques');
+            $table->foreignId('payer_id')->constrained('clients');
+            $table->foreignId('receiver_id')->constrained('clients');
             $table->text('comment')->nullable();
             $table->timestamps();
         });

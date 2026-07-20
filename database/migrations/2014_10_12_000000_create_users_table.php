@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('number', 11)->unique();
             $table->string('full_name');
-            $table->string('national_code', 15)->nullable();
-            $table->unsignedBigInteger('active_plan_id')->nullable();
-            $table->unsignedBigInteger('wallet_balance')->default(0);
+            // $table->string('national_code', 15)->nullable();
+            // $table->unsignedBigInteger('active_plan_id')->nullable();
+            // $table->unsignedBigInteger('wallet_balance')->default(0);
             $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

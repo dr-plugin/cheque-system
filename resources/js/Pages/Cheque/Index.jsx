@@ -4,11 +4,11 @@ import Pagination from "@/BaseComponents/Pagination"
 import { formatAmount } from '@/functions/helper.js';
 import { FiEdit } from "react-icons/fi";
 import ModalMoveCheque from "./Components/ModalMoveCheque";
-
+import { LiaTrashAlt } from "react-icons/lia";
 import { Link } from "@inertiajs/react";
 
 
-function Index({ cheques, h1, clientTrans }) {
+function Index({ cheques, h1, clientTrans, currentClientId }) {
 
     return (
         <>
@@ -47,9 +47,20 @@ function Index({ cheques, h1, clientTrans }) {
                                         payerName={item.owner.name}
                                     />
 
-                                    <Link href={`/cheque/${item.id}/edit`}>
+                                    <Link
+                                        href={`/cheque/${item.id}/edit`}
+                                        className="ml-2"
+                                        >
                                         <FiEdit size={24} />
                                     </Link>
+{/* 
+                                    <Link
+                                        href={`/cheque/${item.id}`}
+                                        method="delete"
+                                        className="not-btn ml-2"
+                                    >
+                                        <LiaTrashAlt size={20} />
+                                    </Link> */}
                                 </td>
                             </tr>
                         ))}
@@ -59,51 +70,6 @@ function Index({ cheques, h1, clientTrans }) {
                 <Pagination links={cheques.links} />
             </section>
 
-            {clientTrans.length > 0 &&
-
-                <section>
-                    <h2>
-                        تراکنشهای کاربر
-                    </h2>
-                    <table className="responsive-table">
-                        <thead>
-                            <tr>
-                                <th>پرداخت کننده</th>
-                                <th>دریافت کننده</th>
-                                <th>شماره تراکنش</th>
-                                <th>تاریخ ثبت</th>
-                                <th>مبلغ (ریال)</th>
-                                <th>توضیحات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {clientTrans.map((item) => (
-                                <tr key={item.id}>
-
-                                    <td>
-                                        {item.payer.name}
-                                    </td>
-                                    <td>
-                                        {item.receiver.name}
-                                    </td>
-                                    <td>
-                                        {item.transaction_id}
-                                    </td>
-                                    <td>
-                                        {item.created_at}
-                                    </td>
-                                    <td>
-                                        {formatAmount(item.price)}
-                                    </td>
-                                    <td>
-                                        {item.comment}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </section>
-            }
         </>
     )
 }

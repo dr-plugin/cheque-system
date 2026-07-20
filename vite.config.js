@@ -15,7 +15,7 @@ export default defineConfig({
     ],
     build: {
         // outDir: 'public_html/build', // where Vite will output files
-        outDir: 'public/build', // where Vite will output files
+        outDir: 'public_html/build', // where Vite will output files
         emptyOutDir: true,           // clear old files
     },
 });

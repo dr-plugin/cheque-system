@@ -21,7 +21,8 @@ function Index({ clients, clientCheques }) {
                             <th>نام کاربر </th>
                             <th>شماره کاربر</th>
                             <th>تاریخ ایجاد</th>
-                            <th>موجودی چک</th>
+                            <th>چکها</th>
+                            <th>تراکنشها</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +35,11 @@ function Index({ clients, clientCheques }) {
                                 <td>
                                     <Link href={`/cheque?client=${item.id}`}>
                                         {item.cheques.length}
+                                    </Link>
+                                </td>
+                                <td>
+                                    <Link href={`/transaction?client=${item.id}`}>
+                                        مشاهده
                                     </Link>
                                 </td>
                             </tr>

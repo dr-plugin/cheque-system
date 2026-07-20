@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 use Morilog\Jalali\Jalalian;
 
 // Route::get('/clear-cache', function () {
@@ -17,7 +18,9 @@ use Morilog\Jalali\Jalalian;
 //     // return what you want
 // });
 
-Route::get('/test', function (Request $request) {
+Route::get('/t', function (Request $request) {
+
+    echo Hash::make('09131514521');
 
     //$d = Jalalian::fromCarbon(Carbon::parse('1405/10/20'))->format('Y/m/d');
 

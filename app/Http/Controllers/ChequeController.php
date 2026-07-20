@@ -22,8 +22,8 @@ class ChequeController extends Controller
     public function index(Request $request)
     {
 
-        $clientTrans = [];
         $clientId = $request->query('client');
+        $id       = $request->query('id');
 
         # Get cheque With owner
         $query = Cheque::query()
@@ -36,14 +36,12 @@ class ChequeController extends Controller
         if ($clientId) {
             $query->where('owner', $clientId);
 
-            $client = Client::find($clientId);
+            $client = Client::findOrFail($clientId);
             if ($client) $h1 = "چک‌های موجود نزد " . $client->name;
+        }
 
-            $clientTrans =
-                Transaction::with('payer', 'receiver')
-                ->where('payer_id', $client->id)
-                ->orWhere('receiver_id', $client->id)
-                ->get();
+        if ($id) {
+            $query->findOrFail($id);
         }
 
         $cheques = $query->paginate(10);
@@ -53,7 +51,7 @@ class ChequeController extends Controller
             [
                 'cheques' => $cheques,
                 'h1'      => $h1,
-                'clientTrans'   => $clientTrans
+                'currentClientId' => $clientId
             ]
         );
     }
@@ -103,6 +101,12 @@ class ChequeController extends Controller
 
         $cheque->update($validated);
 
+        return back()->with('msg', 'چک با موفقیت ویرایش شد');
+    }
+
+    public function destroy(Cheque $cheque)
+    {
+        $cheque->delete();
         return back()->with('msg', 'چک با موفقیت ویرایش شد');
     }
 }

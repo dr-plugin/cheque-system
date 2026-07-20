@@ -9,4 +9,5 @@ enum RoutesName: string
 
     case CreateClient = '/client';
     case CreateCheque = '/cheque';
+    case CreateTransaction = '/transaction';
 }

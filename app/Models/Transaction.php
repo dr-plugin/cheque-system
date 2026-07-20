@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\ValuesObject\TransactionType;
 use App\Models\Trait\PersianDate;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,15 @@ class Transaction extends Model
         'payer_id',
         'receiver_id',
         'comment',
+        'type'
+    ];
+
+    protected $appends = [
+        'type_label',
+    ];
+
+    protected $casts = [
+        'type' => TransactionType::class
     ];
 
     public function payer(): BelongsTo
@@ -34,5 +44,10 @@ class Transaction extends Model
     public function cheque(): BelongsTo
     {
         return $this->belongsTo(Cheque::class, 'cheque_id', 'id');
+    }
+
+    public function getTypeLabelAttribute(): ?string
+    {
+        return $this->type?->label();
     }
 }

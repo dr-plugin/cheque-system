@@ -1,10 +1,10 @@
-import Button               from '@/BaseComponents/Button';
-import BackButton           from '@/BaseComponents/BackButton';
-import FullPageFormLayout   from "@/Layouts/FullPage/Layout";
+import Button from '@/BaseComponents/Button';
+import BackButton from '@/BaseComponents/BackButton';
+import FullPageFormLayout from "@/Layouts/FullPage/Layout";
 
-import { useState, useEffect }  from 'react';
-import { FcCancel }             from "react-icons/fc";
-import { Link, router }         from '@inertiajs/react'
+import { useState, useEffect } from 'react';
+import { FcCancel } from "react-icons/fc";
+import { Link, router } from '@inertiajs/react'
 
 
 const LoginForm = ({ errors, sendUrl, registerUrl, otpLoginUrl }) => {

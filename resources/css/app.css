@@ -2,8 +2,8 @@
 @import url(./app.mob.css);
 @import url(./form.css);
 @import url(./upload-ai.css);
-@import url(./upload-ai.css);
-@import url(./ready.css); /*Some tailwind class*/
+@import url(./ready.css);
+/*Some tailwind class*/
 
 @font-face {
     font-family: yekanbakh;
@@ -544,7 +544,7 @@ span.editable {
     cursor: pointer;
 }
 
-button {
+button:not(.not-btn) {
     background-color: #007bff;
     color: white;
     padding: 0.6rem 1.2rem;
@@ -577,7 +577,7 @@ button.second:hover {
 }
 
 
-button:hover:not(.second, .mode-switch.active) {
+button:hover:not(.second, .mode-switch.active, .not-btn) {
     background-color: #0056b3;
 }
 

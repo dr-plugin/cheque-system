@@ -133,7 +133,7 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
                         customClass="without-bg"
                         onChange={() => setshowTrans(!showTrans)}
                         type="checkbox"
-                        label="افزودن تراکنش به حساب"
+                        label="افزودن تراکنش برگشت"
                         value={showTrans}
                     />
 

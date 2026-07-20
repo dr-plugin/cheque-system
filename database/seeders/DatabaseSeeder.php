@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(
             [
-                AdminSeeder::class,
-                //UserSeeder::class, //No need create User seeder
-                TransactionSeeder::class
+                // AdminSeeder::class,
+                UserSeeder::class, //No need create User seeder
+                //TransactionSeeder::class
             ]
         );
         //$this->call(TransactionSeeder::class);

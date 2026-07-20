@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\ValuesObject\TransactionType;
 use App\Models\Cheque;
 use App\Models\ChequeLogs;
 use App\Models\Transaction;
@@ -40,7 +41,6 @@ class ChequeLogsController extends Controller
             $cheque = Cheque::findOrFail($validated['cheque_id']);
 
             if ((int) $cheque->owner !== (int) $validated['payer_id']) {
-
                 throw ValidationException::withMessages([
                     'payer_id' => 'پرداخت‌ کننده باید مالک فعلی چک باشد.',
                 ]);
@@ -53,18 +53,51 @@ class ChequeLogsController extends Controller
                 'comment'     => $validated['comment'] ?? '',
             ]);
 
-            Transaction::create([
-                'price'           => $validated['trans_price'],
-                'cheque_id'       => $cheque->id,
 
-                'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
-                'receiver_id'     => $validated['payer_id'],
+
+            Transaction::create([
+                'price'           => $cheque->price,
+                'cheque_id'       => $cheque->id,
+                'type'            => TransactionType::Cheque->value,
+
+                'payer_id'        => $validated['payer_id'],
+                'receiver_id'     => $validated['receiver_id'],
 
                 'comment'         => $validated['trans_comment'] ?? '',
             ]);
 
-            $cheque->owner = $validated['receiver_id'];
+            # Save Reverse transaction if is sent
+            if (! empty($validated['trans_price'])) {
 
+                Transaction::create([
+                    'price'           => $validated['trans_price'],
+                    'cheque_id'       => $cheque->id,
+                    'type'            => TransactionType::Payment->value,
+
+                    'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
+                    'receiver_id'     => $validated['payer_id'],
+
+                    'comment'         => $validated['trans_comment'] ?? '',
+                ]);
+
+                $fee = $cheque->price - intval($validated['trans_price']);
+
+                if ($fee > 0) {
+                    Transaction::create([
+                        'cheque_id'   => $cheque->id,
+                        'type'        => TransactionType::Fee->value,
+                        'price'       => $fee,
+
+                        'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
+                        'receiver_id'     => $validated['payer_id'],
+
+                        'comment'     => 'تراکنش سیستمی-هزینه چک',
+                    ]);
+                }
+            }
+
+            # Update cheque owner
+            $cheque->owner = $validated['receiver_id'];
             $cheque->save();
         });
 

@@ -1,7 +1,7 @@
 import { TfiWallet } from "react-icons/tfi";
 import { FiPlusCircle } from "react-icons/fi";
 import { usePage, Link } from "@inertiajs/react";
-import DarkSwitch from "../Components/DarkSwitch";
+import NewDarkSwitch from "../Components/NewDarkSwitch";
 
 import Logo from "../Components/Logo";
 
@@ -31,7 +31,7 @@ export default function DashboardHeader({ h1 }) {
 
             <div className="vertical-hr"></div>
 
-            <DarkSwitch />
+            <NewDarkSwitch />
 
         </header>
     )

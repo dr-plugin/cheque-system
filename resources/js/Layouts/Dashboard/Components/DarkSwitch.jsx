@@ -18,7 +18,7 @@ export default function DarkSwitch({}) {
 
     return (
         <button
-            className={`mode-switch ${lightMode ? 'active' : ''} `}
+            className={`mode-switch ${lightMode ? 'active' : ''}`}
             onClick={toggleDarkMode}
         >
 

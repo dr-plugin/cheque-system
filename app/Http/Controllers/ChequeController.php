@@ -27,7 +27,7 @@ class ChequeController extends Controller
 
         # Get cheque With owner
         $query = Cheque::query()
-            ->orderBy('due_date', 'DESC')
+            ->orderBy('due_date', 'ASC')
             ->with('owner');
 
         $h1 = "لیست تمام چک‌ها";

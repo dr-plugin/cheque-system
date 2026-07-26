@@ -2,8 +2,11 @@
 @import url(./app.mob.css);
 @import url(./form.css);
 @import url(./upload-ai.css);
-@import url(./ready.css);
+
 /*Some tailwind class*/
+@import url(./ready.css);
+
+@import url(./components/dark-switch.css);
 
 @font-face {
     font-family: yekanbakh;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Domain\ValuesObject\Bank;
+use App\Domain\ValuesObject\ChequeStatus;
 use App\Domain\ValuesObject\ChequeType;
 use App\Models\Trait\PersianDate;
 use Carbon\Carbon;
@@ -36,11 +37,13 @@ class Cheque extends Model
     protected $casts = [
         'bank' => Bank::class,
         'type' => ChequeType::class,
+        'status' => ChequeStatus::class,
     ];
 
     protected $appends = [
         'bank_label',
         'type_label',
+        'status_label',
         'date_fa', //presian date
     ];
 
@@ -77,6 +80,11 @@ class Cheque extends Model
     public function getTypeLabelAttribute(): ?string
     {
         return $this->type?->label();
+    }
+    
+    public function getStatusLabelAttribute(): ?string
+    {
+        return $this->status?->label();
     }
 
     public function getDateFaAttribute(): string

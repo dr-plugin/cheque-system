@@ -1,5 +1,5 @@
 .form-wrap.full-page {
-    max-width:100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,6 +18,10 @@
     background: var(--f-group-bg);
     border-radius: 8px;
     border: 1px solid var(--f-group-border);
+    height: 57px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .light .form-group {
@@ -97,6 +101,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: unset !important;
+    border-color: transparent !important;
 }
 
 .form-group select,
@@ -115,7 +121,10 @@
     color: inherit;
     font-family: inherit;
     width: 100%;
-    font-size: inherit;
+    height: 100%;
+    font-size: 1rem;
+    /* height: 1rem; */
+    /* line-height: 1rem; */
 }
 
 .input>div {
@@ -145,6 +154,7 @@
     font-size: smaller;
     color: red;
     position: absolute;
+    bottom: -22px;
 }
 
 .errors.msg {
@@ -318,7 +328,10 @@ Checkbox
 **/
 
 .form-group.checkbox {
-    --box-var: 40;
+    gap: 10px;
+    --box-var: 35;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 .form-group.checkbox input {
@@ -327,18 +340,11 @@ Checkbox
     border-radius: 72px;
     border-style: none;
     flex-shrink: 0;
-    height: calc(var(--box-var) * .65px);
+    height: calc(var(--box-var) * .7px);
     margin: 0;
-    width: calc(var(--box-var) * 1.1px);
-}
-
-.form-group.checkbox input::before {
-    bottom: -6px;
-    content: "";
-    left: -6px;
-    position: absolute;
-    right: -6px;
-    top: -6px;
+    width: calc(var(--box-var) * 1.3px);
+    border: 3px solid #c9cbcd;
+    box-sizing: content-box;
 }
 
 .form-group.checkbox input,
@@ -347,20 +353,20 @@ Checkbox
 }
 
 .form-group.checkbox input::after {
+    box-sizing: border-box;
     background-color: #fff;
     border-radius: 50%;
     content: "";
     position: absolute;
-    height: calc(var(--box-var) * .5px);
-    width: calc(var(--box-var) * .5px);
-    left: 3px;
-    top: 3px;
+    height: calc(var(--box-var) * .7px);
+    aspect-ratio: 1/1;
+    left: 0;
+    top: 0;
 }
 
 .form-group.checkbox input[type=checkbox] {
     cursor: pointer;
     position: relative;
-    top: 6px;
 }
 
 .form-group.checkbox input:hover {
@@ -370,11 +376,13 @@ Checkbox
 
 .form-group.checkbox input:checked {
     background-color: #6e79d6;
+    border-color: #6e79d6;
 }
 
 .form-group.checkbox input:checked::after {
     background-color: #fff;
-    left: calc(var(--box-var) * .48px);
+    transform: translateX(-100%);
+    left: 100%;
 }
 
 .form-group.checkbox :focus:not(.focus-visible) {
@@ -418,14 +426,12 @@ a.button:active {
     display: flex;
     align-items: center;
     margin: 0;
-    --box-var: 30;
+    --box-var: 35;
 }
 
 .form-group.without-bg label {
-    position: relative;
     background-color: transparent !important;
     border-color: transparent !important;
-    top: 5px !important;
 }
 
 .form-group.without-bg label::after,
@@ -440,6 +446,16 @@ a.button:active {
     interpolate-size: allow-keywords;
 }
 
+button.secondary {
+    background-color: var(--app-bg) !important;
+    color: var(--action-color) !important;
+    border: 1px solid var(--action-color) !important;
+}
+
+button.secondary svg {
+    fill: var(--action-color) !important;
+}
+
 @starting-style {
     .trans-form {
         height: 0;
@@ -450,5 +466,54 @@ a.button:active {
     height: 0;
     color: transparent;
     pointer-events: none;
-    opacity:0;
+    opacity: 0;
+}
+
+@media (width <=800px) {
+    .mob-fix {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        z-index: 2;
+        gap: 10px;
+        width: 100%;
+        background: var(--sidebar);
+        padding: 5px 10px;
+    }
+
+    .mob-fix .form-button button[type="submit"] {
+        margin-right: 0;
+        padding: 10px;
+        width: 47vw;
+    }
+
+    .mob-fix form {
+        flex: 1 0 50%;
+    }
+
+    .mob-fix button.secondary {
+        width: 47vw;
+    }
+
+    .modal {
+        inset: 0;
+        width: 100% !important;
+        height: 100%;
+        border-radius: 0 !important;
+    }
+
+    nav.mobile-menu svg {
+        width: 21px;
+        height: 21px;
+    }
+
+    .modal .mob-fix button {
+        width: 100%;
+    }
+}
+
+@media (width >=900px) {
+    .form-group {
+        height: 50px;
+    }
 }

@@ -6,14 +6,6 @@ function Index({ clients, clientCheques }) {
     return (
         <>
             <section className="table-container">
-
-                <div className="flex">
-                    جستجوی کاربر با شماره
-                    <div className="form-group">
-                        <input type="text" name="search_user" />
-                    </div>
-                </div>
-
                 <table className="responsive-table">
                     <thead>
                         <tr>

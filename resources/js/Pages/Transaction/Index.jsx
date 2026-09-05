@@ -1,33 +1,32 @@
 import DashboardLayout from "@/Layouts/Dashboard/Layout"
 import Pagination from "@/BaseComponents/Pagination"
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 import { formatAmount } from '@/functions/helper.js';
 import ModalEditTransaction from "./Components/ModalEditTransaction";
 import { LiaTrashAlt } from "react-icons/lia";
 import { useEffect } from "react";
 import { toast } from 'react-toastify';
 
-function Index({ h1, transactions, clientId, msg }) {
+function Index({ h1, transactions, clientId, financialSummary }) {
+
+    const { flash } = usePage().props;
 
     useEffect(() => {
-        if (msg)
-            toast.success(msg);
-    });
+        if (flash.status)
+            toast.success(flash.msg);
+        else
+            toast.error(flash.msg)
+    }, [flash]);
 
-    const outbound = transactions.data.reduce((sum, item) => {
-        return item.payer_id == clientId ? sum + Number(item.price) : sum;
-    }, 0);
+    const outbound = financialSummary.outbound;
 
-    const inbound = transactions.data.reduce((sum, item) => {
-        return item.receiver_id == clientId ? sum + Number(item.price) : sum;
-    }, 0);
+    const inbound = financialSummary.inbound;
 
-    //پرداختی منهای دریافتی
-    const balance = outbound - inbound;
+    const balance = financialSummary.balance;
 
     return (
         <>
-            <section>
+            <section className="table-container">
 
                 <table className="responsive-table">
                     <thead>
@@ -77,13 +76,13 @@ function Index({ h1, transactions, clientId, msg }) {
                                         type_label={item.type_label}
                                         comment={item.comment}
                                     />
-                                    <Link
+                                    {/* <Link
                                         href={`/transaction/${item.id}`}
                                         method="delete"
                                         className="not-btn ml-2"
                                     >
                                         <LiaTrashAlt size={20} />
-                                    </Link>
+                                    </Link> */}
                                 </td>
                             </tr>
                         ))}

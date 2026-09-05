@@ -21,6 +21,12 @@ class TransactionController extends Controller
     {
         $h1 = "لیست تمام تراکنش‌ها";
 
+        $financialSummary = [
+            'outbound' => 0,
+            'inbound'  => 0,
+            'balance'  => 0,
+        ];
+
         $query = Transaction::query()
             ->with(['payer', 'receiver', 'cheque'])
             ->orderBy('created_at', 'DESC');
@@ -34,18 +40,40 @@ class TransactionController extends Controller
 
             $query->orWhere('payer_id', $clientId)
                 ->orWhere('receiver_id', $clientId);
+
+            $financialSummary = $this->calculateClientBalance($clientId);
         }
 
         return $this->render(
             'Index',
             [
                 'h1'                => $h1,
-                'transactions'      => $query->paginate(10),
+                'transactions'      => $query->paginate(10)->withQueryString(),
                 'clientId'          => $clientId,
                 'transactionType'   => TransactionType::options(),
+                'financialSummary'  => $financialSummary,
                 'msg'               => session('msg')
             ]
         );
+    }
+
+    /**
+     * Calc user trans
+     *
+     * @param int $clientId
+     * @return array
+     */
+    private function calculateClientBalance(int $clientId): array
+    {
+        $outbound = Transaction::where('payer_id', $clientId)->sum('price');
+
+        $inbound = Transaction::where('receiver_id', $clientId)->sum('price');
+
+        return [
+            'outbound' => (float) $outbound,
+            'inbound'  => (float) $inbound,
+            'balance'  => (float) ($outbound - $inbound),
+        ];
     }
 
     public function create()
@@ -74,7 +102,7 @@ class TransactionController extends Controller
             'comment'           => $validated['comment'] ?? null,
         ]);
 
-        return back()->with('msg', 'با موفقیت انجام شد');
+        return $this->back('با موفقیت انجام شد');
     }
 
     public function update(Transaction $transaction, TransactionRequest $request)
@@ -83,12 +111,13 @@ class TransactionController extends Controller
 
         $transaction->update($validated);
 
-        return back()->with('msg', 'با موفقیت انجام شد');
+        return $this->back('با موفقیت انجام شد');
     }
 
     public function destroy(Transaction $transaction)
     {
-        $transaction->delete();
-        return back()->with('msg', 'با موفقیت انجام شد');
+        //$transaction->delete();
+
+        return $this->back('امکان حذف غیر فعال شده است', false);
     }
 }

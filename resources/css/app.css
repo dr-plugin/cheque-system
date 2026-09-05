@@ -1,59 +1,134 @@
 @import url(./app.desk.css);
 @import url(./app.mob.css);
 @import url(./form.css);
-@import url(./upload-ai.css);
+
+/* @import url(./upload-ai.css); */
 
 /*Some tailwind class*/
-@import url(./ready.css);
-
+@import url(./ready-class.css);
 @import url(./components/dark-switch.css);
+@import url(./components/modal-anim.css);
+@import url(./components/data-box.css);
 
 @font-face {
-    font-family: yekanbakh;
+    font-family: iransans;
     font-style: normal;
     font-weight: 300;
-    src: url('./fonts/YekanBakh-Light.woff2') format('woff2'),
-        url('./fonts/YekanBakh-Light.woff') format('woff');
+    src: url('./fonts/IRANSansWeb_Light.woff2') format('woff2'),
+        url('./fonts/IRANSansWeb_Light.woff') format('woff');
 }
 
-@font-face {
+/* @font-face {
     font-family: yekanbakh;
     font-style: normal;
     font-weight: 500;
     src: url('./fonts/YekanBakh-Medium.woff2') format('woff2'),
         url('./fonts/YekanBakh-Medium.woff') format('woff');
-}
+} */
 
 :root {
-    --app-bg: #101827;
-    --sidebar: #2a3852;
-    --sidebar-main-color: #fff;
-    --table-border: #1a2131;
-    --table-header: #1a2131;
-    --app-content-main-color: #fff;
-    --sidebar-link: #fff;
-    --sidebar-active-link: #1d283c;
-    --sidebar-hover-link: #1a2539;
-    --action-color: #2869ff;
-    --action-color-hover: #6291fd;
-    --app-content-secondary-color: #1d283c;
-    --filter-reset: #2c394f;
-    --filter-shadow: rgba(16, 24, 39, 0.8) 0px 6px 12px -2px,
-        rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    --table-even-row: #656565;
+    /* =========================
+       App
+    ========================= */
+    --app-bg: #1e2530;
+
+    /* =========================
+       Sidebar
+    ========================= */
+    --sidebar: #181C23;
+    --sidebar-main-color: #F1F5F9;
+    --sidebar-link: #CBD5E1;
+
+    --sidebar-active-link: #1E3A5F;
+    --sidebar-hover-link: #202938;
+
+
+    /* =========================
+       Content
+    ========================= */
+    --app-content-main-color: #F1F5F9;
+    --app-content-secondary-color: #1A1F27;
+
+
+    /* =========================
+       Table
+    ========================= */
+    --table-border: #303642;
+    --table-header: #1E293B;
+    --table-header-bg: #1E293B;
+
+    --table-even-row: #151920;
+    --table-hover-row: #1C2533;
+
+
+    /* =========================
+       Actions
+    ========================= */
+    --action-color: #3B82F6;
+    --action-color-hover: #2563EB;
+
+
+    /* =========================
+       Filters
+    ========================= */
+    --filter-reset: #273449;
+
+    --filter-shadow:
+        rgba(0, 0, 0, 0.35) 0px 8px 20px -5px,
+        rgba(0, 0, 0, 0.25) 0px 4px 10px -5px;
 }
 
+
 .light:root {
-    --app-bg: #fff;
-    --sidebar: #f3f6fd;
-    --app-content-secondary-color: #f3f6fd;
-    --app-content-main-color: #1f1c2e;
-    --sidebar-link: #1f1c2e;
-    --sidebar-hover-link: rgba(195, 207, 244, 0.5);
-    --sidebar-active-link: rgba(195, 207, 244, 1);
-    --sidebar-main-color: #1f1c2e;
-    --filter-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    --table-even-row: #eff4ff;
+    /* =========================
+       App
+    ========================= */
+    --app-bg: #F3F6FD;
+
+
+    /* =========================
+       Sidebar
+    ========================= */
+    --sidebar: #FFFFFF;
+    --sidebar-main-color: #1F2937;
+    --sidebar-link: #475569;
+
+    --sidebar-hover-link: #EEF4FF;
+    --sidebar-active-link: #DCEBFF;
+
+
+    /* =========================
+       Content
+    ========================= */
+    --app-content-main-color: #1F2937;
+    --app-content-secondary-color: #FFFFFF;
+
+
+    /* =========================
+       Table
+    ========================= */
+    --table-border: #D9E2F0;
+    --table-header: #E8EEF7;
+    --table-header-bg: #E8EEF7;
+
+    --table-even-row: #F7F9FC;
+    --table-hover-row: #EEF4FF;
+
+
+    /* =========================
+       Actions
+    ========================= */
+    --action-color: #2563EB;
+    --action-color-hover: #1D4ED8;
+
+
+    /* =========================
+       Filters
+    ========================= */
+    --filter-reset: #E2E8F0;
+
+    --filter-shadow:
+        rgba(99, 99, 99, 0.12) 0px 4px 12px;
 }
 
 body,
@@ -62,10 +137,11 @@ html {
     padding: 0;
     height: 100%;
     width: 100%;
+    font-size: clamp(14px, 3vw, 15px);
 }
 
 body {
-    font-family: yekanbakh;
+    font-family: iransans;
     overflow: auto;
     background-color: var(--app-bg);
     color: var(--app-content-main-color);
@@ -83,8 +159,40 @@ body {
     min-height: 100vh;
 }
 
+.title {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .title h1 {
-    font-size: 22px;
+    font-size: 1.4rem;
+    font-weight: normal;
+}
+
+.title::before {
+    content: '';
+    background: white;
+    height: 100%;
+    padding: 2px;
+    margin: 3px;
+    border-radius: 5px;
+}
+
+.react-select__menu.css-1lmdq5q-menu {
+    margin: 0 !important;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 1.2rem;
+    margin-top: 8px;
+}
+
+h3 {
+    font-weight: normal;
+    font-size: 1.1rem;
+    margin-top: 8px;
 }
 
 .app-container {
@@ -140,6 +248,7 @@ body {
 
 .sidebar-list-item a.active {
     background-color: var(--sidebar-active-link);
+    border-right: 3px solid;
 }
 
 .sidebar-list-item.active:before {
@@ -236,7 +345,6 @@ body {
 }
 
 .app-content {
-    background-color: var(--app-bg);
     min-height: 100%;
     flex: 1;
     display: flex;
@@ -481,27 +589,30 @@ section.table-container {
 /*table css*/
 .responsive-table {
     width: 100%;
-    border-collapse: collapse;
     min-width: 900px;
     color: inherit
 }
 
+td.cashed {
+    background-color: #12c512;
+}
+
 .responsive-table thead {
-    background-color: #2c3e50;
-    color: #fff;
+    background-color: var(--table-header-bg);
 }
 
 .responsive-table th,
 .responsive-table td {
     padding: 10px 14px;
     text-align: center;
-    border: 1px solid;
+    border: 1px solid #c4c8d757;
     white-space: nowrap;
+    border-radius: 9px;
 }
 
-.responsive-table tbody tr:nth-child(even) {
+/* .responsive-table tbody tr:nth-child(even) {
     background-color: var(--table-even-row);
-}
+} */
 
 .status-paid {
     color: green;
@@ -522,7 +633,8 @@ section.table-container {
 svg {
     vertical-align: middle;
     cursor: pointer;
-    stroke: var(--app-content-main-color)
+    stroke: var(--app-content-main-color);
+    fill: var(--app-content-main-color)
 }
 
 input::-webkit-outer-spin-button,
@@ -547,7 +659,7 @@ span.editable {
     cursor: pointer;
 }
 
-button:not(.not-btn) {
+button:not(.not-btn, .Toastify__close-button) {
     background-color: #007bff;
     color: white;
     padding: 0.6rem 1.2rem;
@@ -562,10 +674,12 @@ button:not(.not-btn) {
     justify-content: center;
     gap: 10px;
     margin-right: auto;
+    font-size: 1rem;
 }
 
 button span {
     transition: all .2s ease-in;
+    width: min(50vw, 300px);
 }
 
 button.second {
@@ -614,6 +728,7 @@ button:hover:not(.second, .mode-switch.active, .not-btn) {
     inset: 0;
     align-content: center;
     backdrop-filter: blur(1px);
+    z-index: 5;
 }
 
 .modal {
@@ -738,20 +853,19 @@ footer {
 
 .sidebar-links::-webkit-scrollbar-thumb {
     background-color: #888;
-    /* رنگ نوار */
     border-radius: 4px;
-    /* گوشه گرد */
     border: 2px solid var(--sidebar);
-    /* حاشیه برای فاصله از track */
 }
 
 .sidebar-links::-webkit-scrollbar-thumb:hover {
     background-color: #555;
-    /* رنگ نوار هنگام هاور */
 }
 
-/* برای Firefox */
 .sidebar-links {
     scrollbar-width: thin;
     scrollbar-color: #888 var(--sidebar);
+}
+
+td.complete {
+    background: #00800061;
 }

@@ -7,6 +7,16 @@ use App\Domain\ValuesObject\Trait\EnumTools;
 
 enum ChequeStatus: string
 {
+    use EnumTools;
 
-    case In_Cartable = 'in_cartable';
+    case Pending = 'pending';
+    case Cashed      = 'cashed';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Cashed       => 'نقد شده',
+            self::Pending  => 'دریافت شده',
+        };
+    }
 }

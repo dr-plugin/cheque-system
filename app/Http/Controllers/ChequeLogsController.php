@@ -102,6 +102,6 @@ class ChequeLogsController extends Controller
         });
 
 
-        return back()->with('msg', 'انتقال چک با موفقیت ثبت شد.');
+        return $this->back('انتقال با موفقیت انجام شد');
     }
 }

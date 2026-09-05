@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Button from "@/BaseComponents/Button";
 import FormField from "@/BaseComponents/FormField";
 import ModalBb from "@/BaseComponents/ModalBb";
-import { FiEdit } from "react-icons/fi";
-import Select from 'react-select';
 import { usePage, useForm } from "@inertiajs/react";
 import { toast } from 'react-toastify';
+import { AiOutlineEdit } from "react-icons/ai";
 
 function ModalEditTransaction({ id, price, type, type_label, comment }) {
 
@@ -15,7 +14,6 @@ function ModalEditTransaction({ id, price, type, type_label, comment }) {
         type: type,
         comment: comment
     });
-
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -48,14 +46,13 @@ function ModalEditTransaction({ id, price, type, type_label, comment }) {
 
             onSuccess: () => {
                 setIsOpen(false);
-                toast.success(msg);
             }
         })
     }
 
     return (
         <>
-            <FiEdit
+            <AiOutlineEdit
                 size={24}
                 onClick={() => setIsOpen(true)}
             />

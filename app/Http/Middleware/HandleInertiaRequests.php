@@ -43,6 +43,10 @@ class HandleInertiaRequests extends Middleware
                     : (object)[];
             },
 
+            'flash' => function () use ($request) {
+                return $request->session()->get('flash') ?? (object)[];
+            },
+
             // Lazily...
             'auth.user' => fn() => $request->user()
                 ? $request->user()->only('id', 'full_name', 'number', 'wallet_balance')

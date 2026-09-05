@@ -16,10 +16,10 @@ enum TransactionType: string
     public function label(): string
     {
         return match ($this) {
-            self::Payment       => 'پرداخت',
-            self::Cheque        => 'در ازای چک',
+            self::Payment       => 'پرداخت نقدی',
+            self::Cheque        => 'انتقال چک',
             self::Adjustment    => 'اصلاحیه',
-            self::Fee           => 'کارمزد چک',
+            self::Fee           => 'سود چک',
         };
     }
 }

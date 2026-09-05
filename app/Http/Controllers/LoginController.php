@@ -30,7 +30,7 @@ class LoginController extends Controller
     {
         $credentials = $request->only('number', 'password');
 
-        if (Auth::guard()->attempt($credentials)) {
+        if (Auth::guard()->attempt($credentials, true)) {
             $request->session()->regenerate();
             return Inertia::location('/cheque');
         }

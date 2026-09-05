@@ -11,9 +11,12 @@ function NewDarkSwitch() {
     useEffect(() => {
         document.documentElement.classList.toggle('light', lightMode);
         localStorage.setItem('lightMode', lightMode);
+        document.cookie = `lightMode=${lightMode}; path=/; max-age=31536000; SameSite=Lax`;
     }, [lightMode]);
 
-    const toggleDarkMode = () => setLightMode(prev => !prev);
+    const toggleDarkMode = () => {
+        setLightMode(prev => !prev);
+    }
 
     return (
         <div

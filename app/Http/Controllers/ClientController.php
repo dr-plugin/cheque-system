@@ -66,7 +66,7 @@ class ClientController extends Controller
             'type'  => $validated['type'],
         ]);
 
-        return back()->with('msg', 'با موفقیت انجام شد');
+        return $this->back('با موفقیت انجام شد');
     }
 
     # Search api

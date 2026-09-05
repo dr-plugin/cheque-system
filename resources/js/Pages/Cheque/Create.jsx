@@ -1,17 +1,23 @@
 import DashboardLayout from "@/Layouts/Dashboard/Layout";
 import FormField from "@/BaseComponents/FormField";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import { useState, useEffect } from 'react'
 import Button from "@/BaseComponents/Button";
-
 import { toast } from 'react-toastify';
-
 import Select from 'react-select';
-
 import ModalReadCheque from "./Components/ModalReadCheque";
 import ClientSearch from "./Components/ClientSearch";
 
-function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
+function CreateCheque({ sendUrl, banks, chequeType, cheque }) {
+
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.status)
+            toast.success(flash.msg);
+        else
+            toast.error(flash.msg)
+    }, [flash]);
 
     const { data, setData, processing, post, put, reset, errors } = useForm({
         price: cheque?.price ?? '',
@@ -50,17 +56,12 @@ function CreateCheque({ sendUrl, msg, banks, chequeType, cheque }) {
                 preserveScroll: true,
                 onSuccess: () => {
                     reset();
-                    toast.success(msg);
                 }
             })
-
             //Update
         } else {
             put(sendUrl, {
                 preserveScroll: true,
-                onSuccess: () => {
-                    toast.success(msg);
-                }
             })
         }
     }

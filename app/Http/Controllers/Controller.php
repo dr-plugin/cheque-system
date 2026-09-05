@@ -19,4 +19,15 @@ class Controller extends BaseController
     {
         return inertia($this->getViewPath() . '/' . $viewName, $props);
     }
+
+    public function back(string $msg, bool $status = true)
+    {
+        return back()->with(
+            'flash',
+            [
+                'msg' => $msg,
+                'status' => $status
+            ]
+        );
+    }
 }

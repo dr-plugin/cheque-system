@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Domain\ValuesObject\Bank;
+use App\Domain\ValuesObject\ChequeStatus;
 use App\Domain\ValuesObject\ChequeType;
 use App\Enums\RoutesName;
 use App\Http\Requests\ChequeRequest;
 use App\Models\Cheque;
 use App\Models\Client;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChequeController extends Controller
@@ -22,8 +24,11 @@ class ChequeController extends Controller
     public function index(Request $request)
     {
 
-        $clientId = $request->query('client');
-        $id       = $request->query('id');
+        $chequeStatus = ChequeStatus::options();
+
+        $clientId   = $request->query('client');
+        $id         = $request->query('id');
+        $dateQuery  = $request->query('date');
 
         # Get cheque With owner
         $query = Cheque::query()
@@ -31,7 +36,6 @@ class ChequeController extends Controller
             ->with('owner');
 
         $h1 = "لیست تمام چک‌ها";
-
 
         if ($clientId) {
             $query->where('owner', $clientId);
@@ -44,14 +48,20 @@ class ChequeController extends Controller
             $query->findOrFail($id);
         }
 
-        $cheques = $query->paginate(10);
+        if (!empty($dateQuery)) {
+            $query->where('due_date', '>', Carbon::yesterday());
+            $query->where('status', '!=', ChequeStatus::Cashed);
+        }
+
+        $cheques = $query->paginate(10)->withQueryString();
 
         return $this->render(
             'Index',
             [
                 'cheques' => $cheques,
                 'h1'      => $h1,
-                'currentClientId' => $clientId
+                'currentClientId' => $clientId,
+                'chequeStatus'    => $chequeStatus,
             ]
         );
     }
@@ -62,7 +72,7 @@ class ChequeController extends Controller
             'Create',
             [
                 'sendUrl'       => RoutesName::CreateCheque->value,
-                'msg'           => session('msg', null),
+                'msg'           => session('msg'),
                 'banks'         => Bank::options(),
                 'chequeType'    => ChequeType::options(),
             ]
@@ -75,12 +85,11 @@ class ChequeController extends Controller
 
         $cheque = Cheque::create($validated);
 
-        return back()->with('msg', 'چک با موفقیت ذخیره شده');
+        return  $this->back('با موفقیت ذخیره شد');
     }
 
     public function edit(Cheque $cheque)
     {
-
         $cheque->load('owner');
 
         return $this->render(
@@ -97,16 +106,21 @@ class ChequeController extends Controller
 
     public function update(Cheque $cheque, ChequeRequest $request)
     {
+        if ($cheque->status == ChequeStatus::Cashed) {
+            return $this->back('این چک قبلا نقد شده و قابل ویرایش نیست', false);
+        }
+
         $validated = $request->validated();
 
         $cheque->update($validated);
 
-        return back()->with('msg', 'چک با موفقیت ویرایش شد');
+        return $this->back('با موفقیت ویرایش شد.');
     }
 
     public function destroy(Cheque $cheque)
     {
-        $cheque->delete();
-        return back()->with('msg', 'چک با موفقیت ویرایش شد');
+        // $cheque->delete();
+
+        return $this->back('امکان حذف غیر فعال شده', false);
     }
 }

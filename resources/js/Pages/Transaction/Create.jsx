@@ -1,16 +1,13 @@
 import DashboardLayout from "@/Layouts/Dashboard/Layout";
 import FormField from "@/BaseComponents/FormField";
-import { useForm } from "@inertiajs/react";
-import { useState, useEffect } from 'react'
+import { useForm, usePage } from "@inertiajs/react";
+import { useEffect } from 'react'
 import Button from "@/BaseComponents/Button";
-
 import { toast } from 'react-toastify';
-
 import ClientSearch from "../Cheque/Components/ClientSearch";
-
 import Select from 'react-select';
 
-function CreateTrans({ sendUrl, transactionType, msg }) {
+function CreateTrans({ sendUrl, transactionType }) {
 
     const { data, setData, processing, post, reset, errors } = useForm({
         type: '',
@@ -20,10 +17,14 @@ function CreateTrans({ sendUrl, transactionType, msg }) {
         comment: ''
     });
 
-    // useEffect(() => {
-    //     if (msg)
-    //         toast.success(msg);
-    // });
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.status)
+            toast.success(flash.msg);
+        else
+            toast.error(flash.msg)
+    }, [flash]);
 
     function addSelectData(option, data = 'payer_id') {
         setData(data, option.value);
@@ -49,7 +50,6 @@ function CreateTrans({ sendUrl, transactionType, msg }) {
             preserveScroll: true,
             onSuccess: () => {
                 reset();
-                toast.success(msg);
             }
         })
     }

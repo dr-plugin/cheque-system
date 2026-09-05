@@ -6,12 +6,9 @@ import ModalBb from "@/BaseComponents/ModalBb";
 import { MdOutlineMoveUp } from "react-icons/md";
 import { useForm, usePage } from '@inertiajs/react';
 import ClientSearch from "./ClientSearch";
-import { toast } from 'react-toastify';
 import { formatAmount } from '@/functions/helper.js';
 
 function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerName }) {
-
-    const { msg } = usePage();
 
     const { data, setData, processing, post, reset, errors } = useForm({
         cheque_id: chequeId,
@@ -53,7 +50,6 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
             preserveScroll: true,
             onSuccess: () => {
                 reset();
-                toast.success(msg);
                 setIsOpen(false);
             }
         })
@@ -71,11 +67,15 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
         if (Number.isNaN(due.getTime())) return chequeAmount;
 
         const diffTime = due.getTime() - today.getTime();
+
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-        const interestMonths = (diffDays / 30) * interestRate;
+        const interestMonths = Math.ceil((diffDays / 30) * interestRate);
 
-        return Math.round((chequeAmount * 100) / (100 + interestMonths));
+        const res = (chequeAmount * 100) / (100 + interestMonths);
+
+        // Round price
+        return (Math.ceil(res / 1000)) * 1000; 
     }
 
     function setTransPrice(e) {

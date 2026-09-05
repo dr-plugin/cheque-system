@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
+<html
+    lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    dir="rtl"
+    class="<?= 'true' == ($_COOKIE['lightMode'] ?? '') ? 'light' : '' ?>">
 
 <head>
     <meta charset="utf-8">

@@ -45,8 +45,8 @@ class RayganSms extends SmsGatewayAbstract implements SmsGateway
     private function getDataForsend(&$number, &$code)
     {
         //password use intead of pattern
-        $accessToken = '6a5db8b4-d7df-45d0-92c8-abc8d806145f';
-        $patternId =  '28730d71-d10f-4d81-b307-815cad747488';
+        $accessToken = '';
+        $patternId =  '';
 
         $dataForSend['token1'] = $code;
 

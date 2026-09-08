@@ -10,6 +10,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    public static $PAGINATECOUT = 15;
+
     public function getViewPath(): string
     {
         dd('This method need overide');

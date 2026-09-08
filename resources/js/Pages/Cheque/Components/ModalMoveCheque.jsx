@@ -7,6 +7,7 @@ import { MdOutlineMoveUp } from "react-icons/md";
 import { useForm, usePage } from '@inertiajs/react';
 import ClientSearch from "./ClientSearch";
 import { formatAmount } from '@/functions/helper.js';
+import Tooltip from "../../../BaseComponents/Tooltip";
 
 function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerName }) {
 
@@ -75,7 +76,7 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
         const res = (chequeAmount * 100) / (100 + interestMonths);
 
         // Round price
-        return (Math.ceil(res / 1000)) * 1000; 
+        return (Math.ceil(res / 1000)) * 1000;
     }
 
     function setTransPrice(e) {
@@ -91,10 +92,15 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
 
     return (
         <>
-            <MdOutlineMoveUp
-                size={25}
-                onClick={() => setIsOpen(true)}
-            />
+            <Tooltip
+                text='انتقال چک'
+                className="ml-2"
+            >
+                <MdOutlineMoveUp
+                    size={23}
+                    onClick={() => setIsOpen(true)}
+                />
+            </Tooltip>
 
 
             <ModalBb

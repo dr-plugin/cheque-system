@@ -10,6 +10,7 @@ import { router, usePage } from "@inertiajs/react";
 import { useState, useEffect } from "react";
 import ModalUpdateStatus from "./Components/ModalUpdateStatus";
 import { toast } from "react-toastify";
+import Tooltip from "../../BaseComponents/Tooltip";
 
 function Index({ cheques, h1, clientTrans, currentClientId }) {
 
@@ -26,7 +27,7 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
     useEffect(() => {
         var urlParams = new URL(window.location.href).searchParams;
         var d = urlParams.get('date');
-        
+
         if (d == 'hide-expire')
             setHideExpire(true);
     }, []);
@@ -98,12 +99,16 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
                                         payerName={item.owner.name}
                                     />
 
-                                    <Link
-                                        href={`/cheque/${item.id}/edit`}
+                                    <Tooltip
+                                        text="ویرایش"
                                         className="ml-2"
                                     >
-                                        <AiOutlineEdit size={24} />
-                                    </Link>
+                                        <Link
+                                            href={`/cheque/${item.id}/edit`}
+                                        >
+                                            <AiOutlineEdit size={24} />
+                                        </Link>
+                                    </Tooltip>
 
                                     <ModalUpdateStatus
                                         cheque={item}

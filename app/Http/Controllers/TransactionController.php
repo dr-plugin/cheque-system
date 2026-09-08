@@ -8,6 +8,8 @@ use App\Http\Requests\TransactionRequest;
 use App\Models\Client;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Validation\Rules\Enum;
 
 class TransactionController extends Controller
@@ -36,23 +38,35 @@ class TransactionController extends Controller
         if ($clientId) {
 
             $client = Client::findOrFail($clientId);
-            if ($client) $h1 = "تراکنش‌های " . $client->name;
+
+            $h1 = "تراکنش‌های " . $client->name;
 
             $query->orWhere('payer_id', $clientId)
                 ->orWhere('receiver_id', $clientId);
 
             $financialSummary = $this->calculateClientBalance($clientId);
+
+            $clientBalance = $financialSummary['balance'];
+
+            $transPaginated = $query->paginate(self::$PAGINATECOUT)->withQueryString();
+
+            // dd($transPaginated);
+
+            $this->addRowBalance($transPaginated, $clientId, $clientBalance);
+        } else {
+
+            $transPaginated = $query->paginate(self::$PAGINATECOUT)->withQueryString();
         }
+
 
         return $this->render(
             'Index',
             [
                 'h1'                => $h1,
-                'transactions'      => $query->paginate(10)->withQueryString(),
+                'transactions'      => $transPaginated,
                 'clientId'          => $clientId,
                 'transactionType'   => TransactionType::options(),
                 'financialSummary'  => $financialSummary,
-                'msg'               => session('msg')
             ]
         );
     }
@@ -65,9 +79,8 @@ class TransactionController extends Controller
      */
     private function calculateClientBalance(int $clientId): array
     {
-        $outbound = Transaction::where('payer_id', $clientId)->sum('price');
-
-        $inbound = Transaction::where('receiver_id', $clientId)->sum('price');
+        $outbound   = Transaction::where('payer_id', $clientId)->sum('price');
+        $inbound    = Transaction::where('receiver_id', $clientId)->sum('price');
 
         return [
             'outbound' => (float) $outbound,
@@ -112,6 +125,25 @@ class TransactionController extends Controller
         $transaction->update($validated);
 
         return $this->back('با موفقیت انجام شد');
+    }
+
+    public function addRowBalance(LengthAwarePaginator &$transPaginated, int $clientId, int $clientBalance)
+    {
+        # Add running_balance in each row
+        $transPaginated->getCollection()->transform(function ($transaction) use ($clientId, &$clientBalance) {
+
+            if ($transaction->receiver_id == $clientId) {
+
+                $clientBalance += $transaction->price;
+            } elseif ($transaction->payer_id == $clientId) {
+
+                $clientBalance -= $transaction->price;
+            }
+
+            $transaction->row_balance = $clientBalance;
+
+            return $transaction;
+        });
     }
 
     public function destroy(Transaction $transaction)

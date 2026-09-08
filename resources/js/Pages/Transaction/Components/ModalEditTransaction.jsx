@@ -5,6 +5,7 @@ import ModalBb from "@/BaseComponents/ModalBb";
 import { usePage, useForm } from "@inertiajs/react";
 import { toast } from 'react-toastify';
 import { AiOutlineEdit } from "react-icons/ai";
+import Tooltip from "@/BaseComponents/Tooltip";
 
 function ModalEditTransaction({ id, price, type, type_label, comment }) {
 
@@ -52,12 +53,15 @@ function ModalEditTransaction({ id, price, type, type_label, comment }) {
 
     return (
         <>
-            <AiOutlineEdit
-                size={24}
-                onClick={() => setIsOpen(true)}
-            />
 
-            <ModalBb
+            <Tooltip text="ویرایش" >
+                <AiOutlineEdit
+                    size={21}
+                    onClick={() => setIsOpen(true)}
+                />
+            </Tooltip>
+
+            < ModalBb
                 isOpen={isOpen}
                 head="ویرایش یک تراکنش"
                 onClose={() => setIsOpen(false)}
@@ -96,7 +100,7 @@ function ModalEditTransaction({ id, price, type, type_label, comment }) {
 
                 </form>
 
-            </ModalBb>
+            </ModalBb >
 
         </>
     )

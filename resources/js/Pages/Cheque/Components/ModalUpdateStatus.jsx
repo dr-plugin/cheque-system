@@ -4,6 +4,7 @@ import ModalBb from "@/BaseComponents/ModalBb";
 import Button from "@/BaseComponents/Button";
 import FormField from "@/BaseComponents/FormField";
 import { usePage, useForm } from "@inertiajs/react";
+import Tooltip from "../../../BaseComponents/Tooltip";
 
 function ModalUpdateStatus({ cheque }) {
 
@@ -46,11 +47,16 @@ function ModalUpdateStatus({ cheque }) {
 
     return (
         <>
-            <RxUpdate
-                size={24}
-                onClick={() => setIsOpen(true)}
+            <Tooltip
+                text="تغییر وضعیت"
                 className="ml-2"
-            />
+            >
+                <RxUpdate
+                    size={23}
+                    onClick={() => setIsOpen(true)}
+                />
+            </Tooltip>
+
 
             <ModalBb
                 isOpen={isOpen}

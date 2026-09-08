@@ -37,6 +37,11 @@ function Index({ h1, transactions, clientId, financialSummary }) {
                             <th>نوع</th>
                             <th>تاریخ ثبت</th>
                             <th>مبلغ (ریال)</th>
+                            {
+                                clientId && (
+                                    <th>مانده</th>
+                                )
+                            }
                             <th>توضیحات</th>
                             <th>عملیات</th>
                         </tr>
@@ -63,8 +68,17 @@ function Index({ h1, transactions, clientId, financialSummary }) {
                                     {item.created_at}
                                 </td>
                                 <td>
-                                    {formatAmount(item.price)}
+                                    <b>
+                                        {formatAmount(item.price)}
+                                    </b>
                                 </td>
+                                {
+                                    clientId && (
+                                        <th>
+                                            {formatAmount(item.row_balance)}
+                                        </th>
+                                    )
+                                }
                                 <td>
                                     {item.comment}
                                 </td>

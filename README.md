@@ -1,4 +1,4 @@
-# [App Name] 🏦
+# [cheque-system] 🏦
 
 [![Laravel Version](https://img.shields.io/badge/Laravel-10.x-red.svg)](https://laravel.com)
 [![React Version](https://img.shields.io/badge/React-18.x-blue.svg)](https://reactjs.org)
@@ -19,13 +19,10 @@ A professional, secure, and efficient web application designed to digitize the l
 
 **Backend:**
 - **Framework:** Laravel (PHP)
-- **API:** RESTful API
-- **Database:** MySQL / PostgreSQL
+- **Database:** MySQL
 
 **Frontend:**
 - **Library:** React.js
-- **State Management:** [e.g., Redux Toolkit / Context API]
-- **Styling:** [e.g., Tailwind CSS / Material UI]
 - **HTTP Client:** Axios
 
 ## 📦 Installation & Setup
@@ -40,5 +37,5 @@ Follow these steps to get your development environment running:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/[your-username]/[your-repo-name].git
-cd [your-repo-name]
+git clone https://github.com/dr-plugin/cheque-system.git
+cd cheque-system

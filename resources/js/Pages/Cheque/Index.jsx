@@ -12,17 +12,11 @@ import ModalUpdateStatus from "./Components/ModalUpdateStatus";
 import { toast } from "react-toastify";
 import Tooltip from "../../BaseComponents/Tooltip";
 
+import "@/../css/pages/cheque.index.css"
+
 function Index({ cheques, h1, clientTrans, currentClientId }) {
 
-    const { flash } = usePage().props;
     const [hideExpire, setHideExpire] = useState(false);
-
-    useEffect(() => {
-        if (flash.status)
-            toast.success(flash.msg);
-        else
-            toast.error(flash.msg)
-    }, [flash]);
 
     useEffect(() => {
         var urlParams = new URL(window.location.href).searchParams;
@@ -44,18 +38,41 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
     return (
         <>
             <section>
-                <FormField
-                    name="hideUnDateCheque"
-                    type="checkbox"
-                    label="فقط چکهای مانده"
-                    customClass="without-bg"
-                    value={hideExpire}
-                    onChange={(e) => {
-                        const isChecked = e.target.checked;
-                        addQuery('date', isChecked ? 'hide-expire' : '');
-                        setHideExpire(isChecked);
-                    }}
-                />
+
+                <div className="flex align-center gap-1">
+
+                    <FormField
+                        name="hideUnDateCheque"
+                        type="checkbox"
+                        label="فقط چکهای مانده"
+                        customClass="without-bg"
+                        value={hideExpire}
+                        onChange={(e) => {
+                            const isChecked = e.target.checked;
+                            addQuery('date', isChecked ? 'hide-expire' : '');
+                            setHideExpire(isChecked);
+                        }}
+                    />
+
+                    <span>
+                        مرتب سازی:
+                    </span>
+
+                    <span className="order-by">
+                        <Link href='/cheque/' type="button">
+                            پیش فرض
+                        </Link>
+                    </span>
+
+                    <span onClick={() => addQuery('orderby', 'date')} className="order-by">
+                        جدیدترین
+                    </span>
+
+                    <span onClick={() => addQuery('status', 'pending')} className="order-by">
+                        وصول نشده
+                    </span>
+
+                </div>
 
             </section>
 
@@ -70,6 +87,7 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
                             <th>بانک</th>
                             <th>کاغذی/دیجیتال</th>
                             <th>تاریخ چک</th>
+                            <th>تاریخ ویرایش</th>
                             <th>مبلغ (ریال)</th>
                             <th>وضعیت</th>
                             <th>عملیات</th>
@@ -85,6 +103,7 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
                                 <td>{item.bank_label}</td>
                                 <td>{item.type_label}</td>
                                 <td>{item.date_fa}</td>
+                                <td>{item.updated_at}</td>
                                 <td>{formatAmount(item.price)}</td>
                                 <td className={item.status}>{item.status_label}</td>
 

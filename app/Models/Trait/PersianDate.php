@@ -13,6 +13,13 @@ trait PersianDate
         );
     }
 
+    public function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => $this->formatDate($value),
+        );
+    }
+
     public function formatDate($date)
     {
         // $format = str_replace(

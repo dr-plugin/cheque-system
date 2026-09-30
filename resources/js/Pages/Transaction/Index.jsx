@@ -9,15 +9,6 @@ import { toast } from 'react-toastify';
 
 function Index({ h1, transactions, clientId, financialSummary }) {
 
-    const { flash } = usePage().props;
-
-    useEffect(() => {
-        if (flash.status)
-            toast.success(flash.msg);
-        else
-            toast.error(flash.msg)
-    }, [flash]);
-
     const outbound = financialSummary.outbound;
 
     const inbound = financialSummary.inbound;
@@ -36,12 +27,18 @@ function Index({ h1, transactions, clientId, financialSummary }) {
                             <th>چک</th>
                             <th>نوع</th>
                             <th>تاریخ ثبت</th>
-                            <th>مبلغ (ریال)</th>
+
                             {
-                                clientId && (
-                                    <th>مانده</th>
-                                )
+                                clientId ?
+                                    <>
+                                        <th>بدهکار</th>
+                                        <th>بستانکار</th>
+                                        <th>مانده</th>
+                                    </>
+                                    :
+                                    <th>مبلغ</th>
                             }
+
                             <th>توضیحات</th>
                             <th>عملیات</th>
                         </tr>
@@ -67,17 +64,33 @@ function Index({ h1, transactions, clientId, financialSummary }) {
                                 <td>
                                     {item.created_at}
                                 </td>
-                                <td>
-                                    <b>
-                                        {formatAmount(item.price)}
-                                    </b>
-                                </td>
+
                                 {
-                                    clientId && (
-                                        <th>
-                                            {formatAmount(item.row_balance)}
-                                        </th>
-                                    )
+                                    clientId ?
+                                        (
+                                            <>
+                                                <td>
+                                                    <b>
+                                                        {item.receiver.id == clientId ? formatAmount(item.price) : '-'}
+                                                    </b>
+                                                </td>
+                                                <td>
+                                                    <b>
+                                                        {item.payer.id == clientId ? formatAmount(item.price) : '-'}
+                                                    </b>
+                                                </td>
+
+                                                <th>
+                                                    {formatAmount(item.row_balance)}
+                                                </th>
+                                            </>
+                                        )
+                                        :
+                                        <td>
+                                            <b>
+                                                {formatAmount(item.price)}
+                                            </b>
+                                        </td>
                                 }
                                 <td>
                                     {item.comment}

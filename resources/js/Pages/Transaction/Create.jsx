@@ -17,15 +17,6 @@ function CreateTrans({ sendUrl, transactionType }) {
         comment: ''
     });
 
-    const { flash } = usePage().props;
-
-    useEffect(() => {
-        if (flash.status)
-            toast.success(flash.msg);
-        else
-            toast.error(flash.msg)
-    }, [flash]);
-
     function addSelectData(option, data = 'payer_id') {
         setData(data, option.value);
     }

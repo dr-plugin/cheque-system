@@ -10,7 +10,6 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Validation\Rules\Enum;
 
 class TransactionController extends Controller
 {
@@ -49,8 +48,6 @@ class TransactionController extends Controller
             $clientBalance = $financialSummary['balance'];
 
             $transPaginated = $query->paginate(self::$PAGINATECOUT)->withQueryString();
-
-            // dd($transPaginated);
 
             $this->addRowBalance($transPaginated, $clientId, $clientBalance);
         } else {
@@ -129,9 +126,14 @@ class TransactionController extends Controller
 
     public function addRowBalance(LengthAwarePaginator &$transPaginated, int $clientId, int $clientBalance)
     {
-        # Add running_balance in each row
-        $transPaginated->getCollection()->transform(function ($transaction) use ($clientId, &$clientBalance) {
 
+        # Add running_balance in each row
+        $transPaginated->getCollection()->transform(function ($transaction) use ($clientId, &$clientBalance, &$isFristRow) {
+
+            # Add row balance
+            $transaction->row_balance = $clientBalance;
+
+            # Effect in row balance
             if ($transaction->receiver_id == $clientId) {
 
                 $clientBalance += $transaction->price;
@@ -140,8 +142,6 @@ class TransactionController extends Controller
                 $clientBalance -= $transaction->price;
             }
 
-            $transaction->row_balance = $clientBalance;
-
             return $transaction;
         });
     }
@@ -149,7 +149,6 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //$transaction->delete();
-
         return $this->back('امکان حذف غیر فعال شده است', false);
     }
 }

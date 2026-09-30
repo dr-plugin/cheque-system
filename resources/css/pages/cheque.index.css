@@ -1,0 +1,8 @@
+.order-by {
+    background: #cfcfd1;
+    border-radius: 5px;
+    vertical-align: middle;
+    padding: 5px;
+    height: fit-content;
+    cursor: pointer;
+}

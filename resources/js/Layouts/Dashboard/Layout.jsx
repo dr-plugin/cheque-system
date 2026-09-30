@@ -2,12 +2,22 @@ import Sidebar from "@/Layouts/Dashboard/Parts/Sidebar";
 import DashboardHeader from '@/Layouts/Dashboard/Parts/DashboardHeader';
 import Footer from '@/Layouts/Dashboard/Parts/Footer';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Head } from "@inertiajs/react";
+import { ToastContainer, toast } from 'react-toastify';
+import { usePage } from "@inertiajs/react";
 
-import { ToastContainer } from 'react-toastify';
 
 const DashboardLayout = ({ children, h1 }) => {
+
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.status)
+            toast.success(flash.msg);
+        else
+            toast.error(flash.msg)
+    }, [flash]);
 
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => setSidebarOpen(prev => !prev);

@@ -10,15 +10,6 @@ import ClientSearch from "./Components/ClientSearch";
 
 function CreateCheque({ sendUrl, banks, chequeType, cheque }) {
 
-    const { flash } = usePage().props;
-
-    useEffect(() => {
-        if (flash.status)
-            toast.success(flash.msg);
-        else
-            toast.error(flash.msg)
-    }, [flash]);
-
     const { data, setData, processing, post, put, reset, errors } = useForm({
         price: cheque?.price ?? '',
         sayadi_number: cheque?.sayadi_number ?? '',

@@ -102,7 +102,6 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
                 />
             </Tooltip>
 
-
             <ModalBb
                 isOpen={isOpen}
                 head=" انتقال یک چک"

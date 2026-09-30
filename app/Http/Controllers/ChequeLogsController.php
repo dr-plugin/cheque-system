@@ -53,8 +53,6 @@ class ChequeLogsController extends Controller
                 'comment'     => $validated['comment'] ?? '',
             ]);
 
-
-
             Transaction::create([
                 'price'           => $cheque->price,
                 'cheque_id'       => $cheque->id,
@@ -67,19 +65,19 @@ class ChequeLogsController extends Controller
             ]);
 
             # Save Reverse transaction if is sent
-            if (! empty($validated['trans_price'])) {
+            if (false && ! empty($validated['trans_price'])) {
 
+                # Cheque money
                 Transaction::create([
                     'price'           => $validated['trans_price'],
                     'cheque_id'       => $cheque->id,
                     'type'            => TransactionType::Payment->value,
-
                     'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
                     'receiver_id'     => $validated['payer_id'],
-
                     'comment'         => $validated['trans_comment'] ?? '',
                 ]);
 
+                # Cheque fee
                 $fee = $cheque->price - intval($validated['trans_price']);
 
                 if ($fee > 0) {
@@ -91,7 +89,7 @@ class ChequeLogsController extends Controller
                         'payer_id'        => $validated['receiver_id'], //payer received cheque and pay money
                         'receiver_id'     => $validated['payer_id'],
 
-                        'comment'     => 'تراکنش سیستمی-هزینه چک',
+                        'comment'     => 'تراکنش سیستمی-سود چک',
                     ]);
                 }
             }

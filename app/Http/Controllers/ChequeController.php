@@ -9,7 +9,6 @@ use App\Enums\RoutesName;
 use App\Http\Requests\ChequeRequest;
 use App\Models\Cheque;
 use App\Models\Client;
-use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -29,11 +28,18 @@ class ChequeController extends Controller
         $clientId   = $request->query('client');
         $id         = $request->query('id');
         $dateQuery  = $request->query('date');
+        $orderBy    = $request->query('orderby');
+        $staus      = $request->query('status');
 
         # Get cheque With owner
         $query = Cheque::query()
-            ->orderBy('due_date', 'ASC')
             ->with('owner');
+
+        if (empty($orderBy)) {
+            $query->orderBy('due_date', 'ASC');
+        } else {
+            $query->orderBy('updated_at', 'ASC');
+        }
 
         $h1 = "لیست تمام چک‌ها";
 
@@ -53,7 +59,12 @@ class ChequeController extends Controller
             $query->where('status', '!=', ChequeStatus::Cashed);
         }
 
-        $cheques = $query->paginate(10)->withQueryString();
+
+        if (!empty($staus)) {
+            $query->where('status', '!=', ChequeStatus::Cashed);
+        }
+
+        $cheques = $query->paginate(15)->withQueryString();
 
         return $this->render(
             'Index',

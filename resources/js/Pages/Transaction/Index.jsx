@@ -45,7 +45,7 @@ function Index({ h1, transactions, clientId, financialSummary }) {
                     </thead>
                     <tbody>
                         {transactions.data.map((item) => (
-                            <tr key={item.id}>
+                            <tr key={item.id} data-id={item.id}>
 
                                 <td>
                                     {item.payer.name}

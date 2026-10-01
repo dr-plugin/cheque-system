@@ -1,13 +1,34 @@
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Button from "@/BaseComponents/Button";
 import FormField from "@/BaseComponents/FormField";
 import ModalBb from "@/BaseComponents/ModalBb";
 import { MdOutlineMoveUp } from "react-icons/md";
-import { useForm, usePage } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import ClientSearch from "./ClientSearch";
 import { formatAmount } from '@/functions/helper.js';
 import Tooltip from "../../../BaseComponents/Tooltip";
+
+
+function calcInterestMountly(price, dueDate, interestRate) {
+    const chequeAmount = Number(price);
+
+    if (Number.isNaN(chequeAmount)) return '';
+
+    const today = new Date();
+    const due = new Date(dueDate);
+
+    if (Number.isNaN(due.getTime())) return chequeAmount;
+
+    const diffTime = due.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const interestPercent = (diffDays / 30) * interestRate;
+
+    const res = (chequeAmount * 100) / (100 + interestPercent);
+
+    return Math.round(res / 1000) * 1000;
+}
 
 function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerName }) {
 
@@ -54,29 +75,6 @@ function ModalMoveCheque({ chequeId, price, due_date, date_fa, payerId, payerNam
                 setIsOpen(false);
             }
         })
-    }
-
-    function calcInterestMountly(price, dueDate, interestRate) {
-
-        const chequeAmount = Number(price);
-
-        if (Number.isNaN(chequeAmount)) return '';
-
-        const today = new Date();
-        const due = new Date(dueDate);
-
-        if (Number.isNaN(due.getTime())) return chequeAmount;
-
-        const diffTime = due.getTime() - today.getTime();
-
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-        const interestMonths = Math.ceil((diffDays / 30) * interestRate);
-
-        const res = (chequeAmount * 100) / (100 + interestMonths);
-
-        // Round price
-        return (Math.ceil(res / 1000)) * 1000;
     }
 
     function setTransPrice(e) {

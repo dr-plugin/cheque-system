@@ -36,9 +36,11 @@ class ChequeController extends Controller
             ->with('owner');
 
         if (empty($orderBy)) {
+            
             $query->orderBy('due_date', 'ASC');
         } else {
-            $query->orderBy('updated_at', 'ASC');
+
+            $query->orderBy('updated_at', 'DESC');
         }
 
         $h1 = "لیست تمام چک‌ها";

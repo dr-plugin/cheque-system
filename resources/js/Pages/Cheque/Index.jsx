@@ -87,7 +87,7 @@ function Index({ cheques, h1, clientTrans, currentClientId }) {
                             <th>بانک</th>
                             <th>کاغذی/دیجیتال</th>
                             <th>تاریخ چک</th>
-                            <th>تاریخ ویرایش</th>
+                            <th>تاریخ انتقال</th>
                             <th>مبلغ (ریال)</th>
                             <th>وضعیت</th>
                             <th>عملیات</th>
